@@ -8,7 +8,7 @@ def gaussian(x,m,std):
     term2 = np.exp(-(x-m)**2/(2*std**2))
     return term1*term2
 
-n,p,s = 10,0.5,1000
+n,p,s = 1000,0.5,1000
 r = np.random.binomial(n,p,s)
 
 plt.hist(r,bins=n,range = (0,n), align = "left",density = True,color = "black",rwidth = 0.8)
