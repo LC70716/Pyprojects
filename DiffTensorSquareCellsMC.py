@@ -2,13 +2,14 @@
 # This is a replica of the simulation proposed in "Diffusion tensor of water in model articular cartilage" by Konstantin I. Momot, Eur Biophys J (2011) 40:81–91,
 # DOI 10.1007/s00249-010-0629-4
 import numpy as np
+from numpy.linalg import eig
 import matplotlib.pyplot as plt
 
 # note that additional optimization may be performed by sampling directly the cosine and sine of random variables when calculating the "boost" function
 # note that particles DO NOT interact w/ each other
 
-N_p = 100  # number of particles
-N_t = 100  # number of time steps
+N_p = 10000  # number of particles
+N_t = 30000  # number of time steps
 dt = 5e-9  ##s
 D_0 = 2.3e-3  ## mm^2/s
 dr = np.sqrt(6 * D_0 * dt)
@@ -16,13 +17,16 @@ dr = np.sqrt(6 * D_0 * dt)
 # about two orders of magnitude lower than the radius of the fibrils : the case in which a particle would pass inside a fibril but end outside
 # are therefore not treated since this effect is assumed to be negligible
 L_0 = 1e-4  ##mm
-T = 0.75  # needs to be correlated to phi (volume fibrils/total volume) via computephi
-DT = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+T = []
+Phis = []
+for i in range(0, 17):
+    T.append(i * 0.1)
+# needs to be correlated to phi (volume fibrils/total volume) via computephi
+
 
 # eigenvalues are ordered on the value of the scal prod of eigenvector and k versor
 D_1 = []  # principal eigenvalues of DT matrix
-D_2 = []  # secondary eigenvalues
-D_3 = []  # tertiary eigenvalues
+D_23 = []  # mean between secondary and tertiary eigenvalues
 
 # this is expensivish
 # for a simulation, this would need to be calculated about N_p*N_t, going by the paper's numbers
@@ -33,13 +37,13 @@ def Fibril(x, y, L_0):
     argx = 2 * np.pi * x / L_0
     argy = 2 * np.pi * y / L_0
     term1 = np.cos(argx)
-    term2 = (81 / 320) * ((np.cos(argx)) ** 2)
-    term3 = (1 / 15) * ((np.cos(argx)) ** 3)
-    term4 = (3 / 320) * ((np.cos(argx)) ** 4)
+    term2 = (81 / 320) * (term1**2)
+    term3 = (1 / 15) * (term1**3)
+    term4 = (3 / 320) * (term1**4)
     term5 = np.cos(argy)
-    term6 = (81 / 320) * ((np.cos(argy)) ** 2)
-    term7 = (1 / 15) * ((np.cos(argy)) ** 3)
-    term8 = (3 / 320) * ((np.cos(argy)) ** 4)
+    term6 = (81 / 320) * (term5**2)
+    term7 = (1 / 15) * (term5**3)
+    term8 = (3 / 320) * (term5**4)
     return term1 - term2 + term3 - term4 + term5 - term6 + term7 - term8
 
 
@@ -48,11 +52,12 @@ def Fibril(x, y, L_0):
 
 def ComputePhi(T, points):
     accepted = 0
-    for i in range(0, points):
-        for j in range(0, points):
+    for i in range(int(-points / 2), int(points / 2)):
+        for j in range(int(-points / 2), int(points / 2)):
             if Fibril(i * 1e-7, j * 1e-7, L_0) > T:
                 accepted += 1
-    return accepted / (points**2)
+    print("done")
+    return accepted / ((2 * int(points / 2)) ** 2)
 
 
 # updates the coordinates by uniformily sampling the polar angles (dr is fixed by D_0 and dt)
@@ -61,9 +66,11 @@ def ComputePhi(T, points):
 def Boost(coordinates, dr):
     phi = np.random.uniform(0, np.pi)
     theta = np.random.uniform(0, 2 * np.pi)
-    coordinates[0] += dr * np.sin(phi) * np.cos(theta)
-    coordinates[1] += dr * np.sin(phi) * np.sin(theta)
-    coordinates[2] += dr * np.cos(phi)
+    sin_phi = np.sin(phi)
+    sin_theta = np.sin(theta)
+    coordinates[0] += dr * sin_phi * np.sqrt(1 - sin_theta**2)
+    coordinates[1] += dr * sin_phi * sin_theta
+    coordinates[2] += dr * np.sqrt(1 - sin_phi**2)
 
 
 # returns a vector to be subtracted from the coordinates when a particle would fall into a fibril (ie Fibril(x,y,L_0) - T >= 0),dist is the distance
@@ -94,10 +101,16 @@ def GetDTensorElementAddend(coordinateshistory, i, j, N_t, N_p, dt):
 
 def MainLoop(N_t, N_p, dt, dr, L_0, T):
     coordinates = [
-        np.random.uniform(-1e-4, 1e-4),
-        np.random.uniform(-1e-4, 1e-4),
-        np.random.uniform(-1e-4, 1e-4),
+        np.random.uniform(-1e-3, 1e-3),
+        np.random.uniform(-1e-3, 1e-3),
+        np.random.uniform(-1e-3, 1e-3),
     ]
+    while Fibril(coordinates[0], coordinates[1], L_0) - T > 0:
+        coordinates = [
+            np.random.uniform(-1e-3, 1e-3),
+            np.random.uniform(-1e-3, 1e-3),
+            np.random.uniform(-1e-3, 1e-3),
+        ]
     coordinateshistory = [[0, 0, 0], [0, 0, 0]]
     coordinateshistory[0] = [coordinates[0], coordinates[1], coordinates[2]]
     for i in range(0, N_t):
@@ -118,8 +131,37 @@ def MainLoop(N_t, N_p, dt, dr, L_0, T):
 
 
 # simulation start
-for i in range(0, N_p):
-    result = MainLoop(N_t, N_p, dt, dr, L_0, T)
-    DT = [[DT[i][j] + result[i][j] for j in range(len(DT[0]))] for i in range(len(DT))]
-print(DT)
+for t in T:
+    princ_evals = []
+    sec_vals = []
+    DT = np.array([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+    for i in range(0, N_p):
+        result = MainLoop(N_t, N_p, dt, dr, L_0, t)
+        DT = [
+            [DT[i][j] + result[i][j] for j in range(len(DT[0]))] for i in range(len(DT))
+        ]
+    w, v = np.linalg.eig(DT)
+    print("e-values:", w)
+    print("e-vectors:", v)
+    principal_eval = w[0]
+    mean_sec_eval = (w[1] + w[2]) / 2
+    if v[1][2] > v[0][2]:
+        principal_eval = w[1]
+        mean_sec_eval = (w[0] + w[2]) / 2
+        if v[2][2] > v[1][2]:
+            principal_eval = w[2]
+            mean_sec_eval = (w[0] + w[1]) / 2
+    else:
+        if v[2][2] > v[0][2]:
+            principal_eval = w[2]
+            mean_sec_eval = (w[0] + w[1]) / 2
+    D_1.append(principal_eval)
+    D_23.append(mean_sec_eval)
+
+# compute phis
+for t in T:
+    Phis.append(ComputePhi(t, 1000))
+
+# plotting
+plt.scatter(Phis, D_1)
 # %%
