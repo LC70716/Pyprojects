@@ -9,7 +9,7 @@ import multiprocessing
 # note that additional optimization may be performed by sampling directly the cosine and sine of random variables when calculating the "boost" function
 # note that particles DO NOT interact w/ each other
 
-N_p = 5000  # number of particles
+N_p = 10  # number of particles
 N_t = 30000  # number of time steps
 dt = 5e-9  ##s
 D_0 = 2.3e-3  ## mm^2/s
@@ -76,11 +76,17 @@ def Boost(coordinates, dr):
 # returns a vector to be subtracted from the coordinates when a particle would fall into a fibril (ie Fibril(x,y,L_0) - T >= 0),dist is the distance
 # between where the particle would end up and the boundary : this is equal to Firbril(x,y,L_0) - T
 
+#NEED TO FIND A WAY TO CALCULATE INTERCEPTION POINT WITH FIBRIL
 
 def GetBorderPos(oldcoord, insidecoord, dist):
-    theta = np.arctan(
-        (insidecoord[1] - oldcoord[1]) / (insidecoord[0] - insidecoord[1])
-    )  # angle between particle trajectory and x-axis
+    dy = insidecoord[1] - oldcoord[1]
+    dx = insidecoord[0] - oldcoord[0]
+    if (dx != 0 ) :
+     theta = np.arctan(
+        dy / dx
+     )  # angle between particle trajectory and x-axis
+    else :
+        theta = 0
     return [
         oldcoord[0] - dist * np.cos(theta),
         oldcoord[1] - dist * np.sin(theta),
@@ -103,7 +109,6 @@ def GetDTensorElementAddend(coordinateshistory, i, j, N_t, N_p, dt):
 
 
 def SimulParticle(particle_index, N_t, N_p, dt, dr, L_0, T):
-    print(f"Simulating particle {particle_index} for T = {T}")
     coordinates = [
         np.random.uniform(-1e-3, 1e-3),
         np.random.uniform(-1e-3, 1e-3),
@@ -120,9 +125,15 @@ def SimulParticle(particle_index, N_t, N_p, dt, dr, L_0, T):
     for i in range(0, N_t):
         oldcoord = coordinates
         Boost(coordinates, dr)
-        bordercrossing = Fibril(coordinates[0], coordinates[1], L_0)
+        bordercrossing = Fibril(coordinates[0], coordinates[1], L_0) 
         if bordercrossing - T > 0:
-            coordinates = GetBorderPos(oldcoord, coordinates, bordercrossing - T)
+            
+            
+            ###### BIG APPROXIMATION, NOT CORRECT BY ANY MEANS, NEED TO FIND A WAY TO CALCULATE INTERCEPTION POINT WITH FIBRIL
+            
+            
+          #  coordinates = GetBorderPos(oldcoord, coordinates, bordercrossing - T)
+          coordinates = oldcoord
     coordinateshistory[1] = [coordinates[0], coordinates[1], coordinates[2]]
     D_xx = GetDTensorElementAddend(coordinateshistory, 0, 0, N_t, N_p, dt)
     D_xy = GetDTensorElementAddend(coordinateshistory, 0, 1, N_t, N_p, dt)
@@ -170,14 +181,14 @@ if __name__ == "__main__":
         print("e-vectors:", v)
         principal_eval = w[0]
         mean_sec_eval = (w[1] + w[2]) / 2
-        if np.abs(v[1][2]) > np.abs(v[0][2]):
+        if np.abs(v[2][1]) > np.abs(v[2][0]):
             principal_eval = w[1]
             mean_sec_eval = (w[0] + w[2]) / 2
-            if np.abs(v[2][2]) > np.abs(v[1][2]):
+            if np.abs(v[2][2]) > np.abs(v[2][1]):
                 principal_eval = w[2]
                 mean_sec_eval = (w[0] + w[1]) / 2
         else:
-            if np.abs(v[2][2]) > np.abs(v[0][2]):
+            if np.abs(v[2][2]) > np.abs(v[2][0]):
                 principal_eval = w[2]
                 mean_sec_eval = (w[0] + w[1]) / 2
         D_1.append(principal_eval)
@@ -187,7 +198,6 @@ if __name__ == "__main__":
     # compute phis
     for t in T:
         Phis.append(ComputePhi(t, 1000))
-
 # plotting
 plt.scatter(Phis, D_1)
 plt.scatter(Phis, D_23)
