@@ -9,7 +9,7 @@ import multiprocessing
 # note that additional optimization may be performed by sampling directly the cosine and sine of random variables when calculating the "boost" function
 # note that particles DO NOT interact w/ each other
 
-N_p = 10  # number of particles
+N_p = 1000  # number of particles
 N_t = 30000  # number of time steps
 dt = 5e-9  ##s
 D_0 = 2.3e-3  ## mm^2/s
@@ -68,9 +68,10 @@ def Boost(coordinates, dr):
     theta = np.random.uniform(0, 2 * np.pi)
     sin_phi = np.sin(phi)
     sin_theta = np.sin(theta)
-    coordinates[0] += dr * sin_phi * np.sqrt(1 - sin_theta**2)
+    coordinates[0] += dr * sin_phi * np.cos(theta)
     coordinates[1] += dr * sin_phi * sin_theta
-    coordinates[2] += dr * np.sqrt(1 - sin_phi**2)
+    coordinates[2] += dr * np.cos(phi)
+    return theta,phi
 
 
 # returns a vector to be subtracted from the coordinates when a particle would fall into a fibril (ie Fibril(x,y,L_0) - T >= 0),dist is the distance
@@ -78,19 +79,13 @@ def Boost(coordinates, dr):
 
 #NEED TO FIND A WAY TO CALCULATE INTERCEPTION POINT WITH FIBRIL
 
-def GetBorderPos(oldcoord, insidecoord, dist):
-    dy = insidecoord[1] - oldcoord[1]
-    dx = insidecoord[0] - oldcoord[0]
-    if (dx != 0 ) :
-     theta = np.arctan(
-        dy / dx
-     )  # angle between particle trajectory and x-axis
-    else :
-        theta = 0
+def GetBorderPos(insidecoord, dist,theta):
+    sign_x = 1
+    sign_y = 1
     return [
-        oldcoord[0] - dist * np.cos(theta),
-        oldcoord[1] - dist * np.sin(theta),
-        oldcoord[2],
+        insidecoord[0] - dist * np.cos(theta),
+        insidecoord[1] - dist * np.sin(theta),
+        insidecoord[2],
     ]
 
 
@@ -123,17 +118,11 @@ def SimulParticle(particle_index, N_t, N_p, dt, dr, L_0, T):
     coordinateshistory = [[0, 0, 0], [0, 0, 0]]
     coordinateshistory[0] = [coordinates[0], coordinates[1], coordinates[2]]
     for i in range(0, N_t):
-        oldcoord = coordinates
-        Boost(coordinates, dr)
+        theta,phi = Boost(coordinates, dr)
         bordercrossing = Fibril(coordinates[0], coordinates[1], L_0) 
-        if bordercrossing - T > 0:
-            
-            
-            ###### BIG APPROXIMATION, NOT CORRECT BY ANY MEANS, NEED TO FIND A WAY TO CALCULATE INTERCEPTION POINT WITH FIBRIL
-            
-            
-          #  coordinates = GetBorderPos(oldcoord, coordinates, bordercrossing - T)
-          coordinates = oldcoord
+        if bordercrossing - T > 0 : #MUST PROPERLY EVALUATE DIST
+           dist = (( bordercrossing - T )/ bordercrossing) * (dr*np.sin(phi)) #why does it work? why should it? basically how much dr projected on the xy plane is inside the fibril
+           GetBorderPos(coordinates,dist,theta)
     coordinateshistory[1] = [coordinates[0], coordinates[1], coordinates[2]]
     D_xx = GetDTensorElementAddend(coordinateshistory, 0, 0, N_t, N_p, dt)
     D_xy = GetDTensorElementAddend(coordinateshistory, 0, 1, N_t, N_p, dt)
