@@ -98,7 +98,9 @@ def GetDTensorElementAddend(coordinateshistory, i, j, N_t, N_p, dt):
         / (2 * N_t * dt * N_p)
     )
 
-#simulates one particle
+
+# simulates one particle
+
 
 def SimulParticle(particle_index, N_t, N_p, dt, dr, L_0, T):
     print(f"Simulating particle {particle_index} for T = {T}")
@@ -153,37 +155,38 @@ def MainLoop(N_t, N_p, dt, dr, L_0, T):
 
 # simulation start
 if __name__ == "__main__":
- for t in T:
-    princ_evals = []
-    sec_vals = []
-    DT = np.array([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
-    sim_results = MainLoop(N_p, N_t, dt, dr, L_0, t)
-    for result in sim_results:
-        DT = [
-            [DT[i][j] + result[i][j] for j in range(len(DT[0]))] for i in range(len(DT))
-        ]
-    w, v = np.linalg.eig(DT)
-    print("e-values:", w)
-    print("e-vectors:", v)
-    principal_eval = w[0]
-    mean_sec_eval = (w[1] + w[2]) / 2
-    if np.abs(v[1][2]) > np.abs(v[0][2]):
-        principal_eval = w[1]
-        mean_sec_eval = (w[0] + w[2]) / 2
-        if np.abs(v[2][2]) > np.abs(v[1][2]):
-            principal_eval = w[2]
-            mean_sec_eval = (w[0] + w[1]) / 2
-    else:
-        if np.abs(v[2][2]) > np.abs(v[0][2]):
-            principal_eval = w[2]
-            mean_sec_eval = (w[0] + w[1]) / 2
-    D_1.append(principal_eval)
-    D_23.append(mean_sec_eval)
-    print(t)
+    for t in T:
+        princ_evals = []
+        sec_vals = []
+        DT = np.array([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+        sim_results = MainLoop(N_p, N_t, dt, dr, L_0, t)
+        for result in sim_results:
+            DT = [
+                [DT[i][j] + result[i][j] for j in range(len(DT[0]))]
+                for i in range(len(DT))
+            ]
+        w, v = np.linalg.eig(DT)
+        print("e-values:", w)
+        print("e-vectors:", v)
+        principal_eval = w[0]
+        mean_sec_eval = (w[1] + w[2]) / 2
+        if np.abs(v[1][2]) > np.abs(v[0][2]):
+            principal_eval = w[1]
+            mean_sec_eval = (w[0] + w[2]) / 2
+            if np.abs(v[2][2]) > np.abs(v[1][2]):
+                principal_eval = w[2]
+                mean_sec_eval = (w[0] + w[1]) / 2
+        else:
+            if np.abs(v[2][2]) > np.abs(v[0][2]):
+                principal_eval = w[2]
+                mean_sec_eval = (w[0] + w[1]) / 2
+        D_1.append(principal_eval)
+        D_23.append(mean_sec_eval)
+        print(t)
 
-# compute phis
- for t in T:
-    Phis.append(ComputePhi(t, 1000))
+    # compute phis
+    for t in T:
+        Phis.append(ComputePhi(t, 1000))
 
 # plotting
 plt.scatter(Phis, D_1)
