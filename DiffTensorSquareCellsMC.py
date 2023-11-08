@@ -22,6 +22,7 @@ T = []
 Phis = []
 for i in range(0, 17):
     T.append(i * 0.1)
+T.append(193 / 120)
 # needs to be correlated to phi (volume fibrils/total volume) via computephi
 
 
@@ -67,26 +68,23 @@ def Boost(coordinates, dr):
     phi = np.random.uniform(0, np.pi)
     theta = np.random.uniform(0, 2 * np.pi)
     sin_phi = np.sin(phi)
-    sin_theta = np.sin(theta)
     coordinates[0] += dr * sin_phi * np.cos(theta)
-    coordinates[1] += dr * sin_phi * sin_theta
+    coordinates[1] += dr * sin_phi * np.sin(theta)
     coordinates[2] += dr * np.cos(phi)
-    return theta,phi
+    return theta, phi
 
 
 # returns a vector to be subtracted from the coordinates when a particle would fall into a fibril (ie Fibril(x,y,L_0) - T >= 0),dist is the distance
 # between where the particle would end up and the boundary : this is equal to Firbril(x,y,L_0) - T
 
-#NEED TO FIND A WAY TO CALCULATE INTERCEPTION POINT WITH FIBRIL
+# NEED TO FIND A WAY TO CALCULATE INTERCEPTION POINT WITH FIBRIL
+# THIS SHOULD STILL DO SOMETHING ABOUT Z AXIS SINCE IN THIS WAY WATER IS SLIDING ON THE FIBRILS
 
-def GetBorderPos(insidecoord, dist,theta):
-    sign_x = 1
-    sign_y = 1
-    return [
-        insidecoord[0] - dist * np.cos(theta),
-        insidecoord[1] - dist * np.sin(theta),
-        insidecoord[2],
-    ]
+
+def GetBorderPos(insidecoord, dist, theta, phi):
+        insidecoord[0] - dist * np.sin(phi) * np.cos(theta),
+        insidecoord[1] - dist * np.sin(phi) * np.sin(theta),
+        insidecoord[2] - dist * np.cos(phi)
 
 
 # returns an addend of an element of the diffusion tensor, i and j are the components of the coordinates (0=x,1=y,2=z)
@@ -105,24 +103,26 @@ def GetDTensorElementAddend(coordinateshistory, i, j, N_t, N_p, dt):
 
 def SimulParticle(particle_index, N_t, N_p, dt, dr, L_0, T):
     coordinates = [
-        np.random.uniform(-1e-3, 1e-3),
-        np.random.uniform(-1e-3, 1e-3),
-        np.random.uniform(-1e-3, 1e-3),
+        np.random.uniform(-1e-4, 1e-4),
+        np.random.uniform(-1e-4, 1e-4),
+        np.random.uniform(-1e-4, 1e-4),
     ]
     while Fibril(coordinates[0], coordinates[1], L_0) - T > 0:
         coordinates = [
-            np.random.uniform(-1e-3, 1e-3),
-            np.random.uniform(-1e-3, 1e-3),
-            np.random.uniform(-1e-3, 1e-3),
+            np.random.uniform(-1e-4, 1e-4),
+            np.random.uniform(-1e-4, 1e-4),
+            np.random.uniform(-1e-4, 1e-4),
         ]
     coordinateshistory = [[0, 0, 0], [0, 0, 0]]
     coordinateshistory[0] = [coordinates[0], coordinates[1], coordinates[2]]
     for i in range(0, N_t):
-        theta,phi = Boost(coordinates, dr)
-        bordercrossing = Fibril(coordinates[0], coordinates[1], L_0) 
-        if bordercrossing - T > 0 : #MUST PROPERLY EVALUATE DIST
-           dist = (( bordercrossing - T )/ bordercrossing) * (dr*np.sin(phi)) #why does it work? why should it? basically how much dr projected on the xy plane is inside the fibril
-           GetBorderPos(coordinates,dist,theta)
+        theta, phi = Boost(coordinates, dr)
+        bordercrossing = Fibril(coordinates[0], coordinates[1], L_0)
+        if bordercrossing - T > 0:  # MUST PROPERLY EVALUATE DIST
+            dist = ((bordercrossing - T) / bordercrossing) * (
+                dr
+            )  # why does it work? why should it? basically how much dr is inside the fibril
+            GetBorderPos(coordinates, dist, theta, phi)
     coordinateshistory[1] = [coordinates[0], coordinates[1], coordinates[2]]
     D_xx = GetDTensorElementAddend(coordinateshistory, 0, 0, N_t, N_p, dt)
     D_xy = GetDTensorElementAddend(coordinateshistory, 0, 1, N_t, N_p, dt)
@@ -156,15 +156,15 @@ def MainLoop(N_t, N_p, dt, dr, L_0, T):
 # simulation start
 if __name__ == "__main__":
     for t in T:
-        princ_evals = []
-        sec_vals = []
         DT = np.array([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
-        sim_results = MainLoop(N_p, N_t, dt, dr, L_0, t)
+        sim_results = MainLoop(N_t, N_p, dt, dr, L_0, t)
+        print(len(sim_results))
         for result in sim_results:
             DT = [
                 [DT[i][j] + result[i][j] for j in range(len(DT[0]))]
                 for i in range(len(DT))
             ]
+        print(DT)
         w, v = np.linalg.eig(DT)
         print("e-values:", w)
         print("e-vectors:", v)
