@@ -145,18 +145,19 @@ for t in T:
     print("e-vectors:", v)
     principal_eval = w[0]
     mean_sec_eval = (w[1] + w[2]) / 2
-    if v[1][2] > v[0][2]:
+    if np.abs(v[1][2]) > np.abs(v[0][2]):
         principal_eval = w[1]
         mean_sec_eval = (w[0] + w[2]) / 2
-        if v[2][2] > v[1][2]:
+        if np.abs(v[2][2]) > np.abs(v[1][2]):
             principal_eval = w[2]
             mean_sec_eval = (w[0] + w[1]) / 2
     else:
-        if v[2][2] > v[0][2]:
+        if np.abs(v[2][2]) > np.abs(v[0][2]):
             principal_eval = w[2]
             mean_sec_eval = (w[0] + w[1]) / 2
     D_1.append(principal_eval)
     D_23.append(mean_sec_eval)
+    print(t)
 
 # compute phis
 for t in T:
