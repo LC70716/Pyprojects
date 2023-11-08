@@ -165,4 +165,5 @@ for t in T:
 
 # plotting
 plt.scatter(Phis, D_1)
+plt.scatter(Phis, D_23)
 # %%
