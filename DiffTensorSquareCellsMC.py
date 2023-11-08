@@ -4,11 +4,12 @@
 import numpy as np
 from numpy.linalg import eig
 import matplotlib.pyplot as plt
+import multiprocessing
 
 # note that additional optimization may be performed by sampling directly the cosine and sine of random variables when calculating the "boost" function
 # note that particles DO NOT interact w/ each other
 
-N_p = 10000  # number of particles
+N_p = 5000  # number of particles
 N_t = 30000  # number of time steps
 dt = 5e-9  ##s
 D_0 = 2.3e-3  ## mm^2/s
@@ -56,7 +57,6 @@ def ComputePhi(T, points):
         for j in range(int(-points / 2), int(points / 2)):
             if Fibril(i * 1e-7, j * 1e-7, L_0) > T:
                 accepted += 1
-    print("done")
     return accepted / ((2 * int(points / 2)) ** 2)
 
 
@@ -98,8 +98,10 @@ def GetDTensorElementAddend(coordinateshistory, i, j, N_t, N_p, dt):
         / (2 * N_t * dt * N_p)
     )
 
+#simulates one particle
 
-def MainLoop(N_t, N_p, dt, dr, L_0, T):
+def SimulParticle(particle_index, N_t, N_p, dt, dr, L_0, T):
+    print(f"Simulating particle {particle_index} for T = {T}")
     coordinates = [
         np.random.uniform(-1e-3, 1e-3),
         np.random.uniform(-1e-3, 1e-3),
@@ -130,13 +132,33 @@ def MainLoop(N_t, N_p, dt, dr, L_0, T):
     return [[D_xx, D_xy, D_xz], [D_xy, D_yy, D_yz], [D_xz, D_yz, D_zz]]
 
 
+def MainLoop(N_t, N_p, dt, dr, L_0, T):
+    pool = multiprocessing.Pool()  # Create a pool of worker processes
+    results = []
+
+    # Mapping the SimulParticle function to all particle indices in parallel
+    for i in range(N_p):
+        result = pool.apply_async(SimulParticle, args=(i, N_t, N_p, dt, dr, L_0, T))
+        results.append(result)
+
+    # Getting the results for all particles
+    particle_results = [result.get() for result in results]
+
+    # Closing the pool and waiting for all processes to finish
+    pool.close()
+    pool.join()
+
+    return particle_results
+
+
 # simulation start
-for t in T:
+if __name__ == "__main__":
+ for t in T:
     princ_evals = []
     sec_vals = []
     DT = np.array([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
-    for i in range(0, N_p):
-        result = MainLoop(N_t, N_p, dt, dr, L_0, t)
+    sim_results = MainLoop(N_p, N_t, dt, dr, L_0, t)
+    for result in sim_results:
         DT = [
             [DT[i][j] + result[i][j] for j in range(len(DT[0]))] for i in range(len(DT))
         ]
@@ -160,7 +182,7 @@ for t in T:
     print(t)
 
 # compute phis
-for t in T:
+ for t in T:
     Phis.append(ComputePhi(t, 1000))
 
 # plotting
