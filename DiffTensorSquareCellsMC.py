@@ -9,7 +9,7 @@ import multiprocessing
 # note that additional optimization may be performed by sampling directly the cosine and sine of random variables when calculating the "boost" function
 # note that particles DO NOT interact w/ each other
 
-N_p = 1000  # number of particles
+N_p = 10000  # number of particles
 N_t = 30000  # number of time steps
 dt = 5e-9  ##s
 D_0 = 2.3e-3  ## mm^2/s
@@ -78,13 +78,12 @@ def Boost(coordinates, dr):
 # between where the particle would end up and the boundary : this is equal to Firbril(x,y,L_0) - T
 
 # NEED TO FIND A WAY TO CALCULATE INTERCEPTION POINT WITH FIBRIL
-# THIS SHOULD STILL DO SOMETHING ABOUT Z AXIS SINCE IN THIS WAY WATER IS SLIDING ON THE FIBRILS
 
 
 def GetBorderPos(insidecoord, dist, theta, phi):
-        insidecoord[0] - dist * np.sin(phi) * np.cos(theta),
-        insidecoord[1] - dist * np.sin(phi) * np.sin(theta),
-        insidecoord[2] - dist * np.cos(phi)
+        insidecoord[0] -= dist * np.sin(phi) * np.cos(theta)
+        insidecoord[1] -= dist * np.sin(phi) * np.sin(theta)
+        insidecoord[2] -= dist * np.cos(phi)
 
 
 # returns an addend of an element of the diffusion tensor, i and j are the components of the coordinates (0=x,1=y,2=z)
@@ -103,26 +102,25 @@ def GetDTensorElementAddend(coordinateshistory, i, j, N_t, N_p, dt):
 
 def SimulParticle(particle_index, N_t, N_p, dt, dr, L_0, T):
     coordinates = [
-        np.random.uniform(-1e-4, 1e-4),
-        np.random.uniform(-1e-4, 1e-4),
-        np.random.uniform(-1e-4, 1e-4),
+        np.random.uniform(-1, 1),
+        np.random.uniform(-1, 1),
+        np.random.uniform(-1, 1),
     ]
     while Fibril(coordinates[0], coordinates[1], L_0) - T > 0:
         coordinates = [
-            np.random.uniform(-1e-4, 1e-4),
-            np.random.uniform(-1e-4, 1e-4),
-            np.random.uniform(-1e-4, 1e-4),
+            np.random.uniform(-1, 1),
+            np.random.uniform(-1, 1),
+            np.random.uniform(-1, 1),
         ]
     coordinateshistory = [[0, 0, 0], [0, 0, 0]]
     coordinateshistory[0] = [coordinates[0], coordinates[1], coordinates[2]]
     for i in range(0, N_t):
         theta, phi = Boost(coordinates, dr)
         bordercrossing = Fibril(coordinates[0], coordinates[1], L_0)
-        if bordercrossing - T > 0:  # MUST PROPERLY EVALUATE DIST
-            dist = ((bordercrossing - T) / bordercrossing) * (
-                dr
-            )  # why does it work? why should it? basically how much dr is inside the fibril
+        while bordercrossing - T > 0 :  # MUST PROPERLY EVALUATE DIST
+            dist =  dr/10  # work with this for the moment
             GetBorderPos(coordinates, dist, theta, phi)
+            bordercrossing = Fibril(coordinates[0], coordinates[1], L_0)
     coordinateshistory[1] = [coordinates[0], coordinates[1], coordinates[2]]
     D_xx = GetDTensorElementAddend(coordinateshistory, 0, 0, N_t, N_p, dt)
     D_xy = GetDTensorElementAddend(coordinateshistory, 0, 1, N_t, N_p, dt)
