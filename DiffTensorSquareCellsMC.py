@@ -9,7 +9,7 @@ import multiprocessing
 # note that additional optimization may be performed by sampling directly the cosine and sine of random variables when calculating the "boost" function
 # note that particles DO NOT interact w/ each other
 
-N_p = 10000  # number of particles
+N_p = 40000  # number of particles
 N_t = 30000  # number of time steps
 dt = 5e-9  ##s
 D_0 = 2.3e-3  ## mm^2/s
@@ -121,6 +121,7 @@ def SimulParticle(particle_index, N_t, N_p, dt, dr, L_0, T):
             dist =  dr/10  # work with this for the moment
             GetBorderPos(coordinates, dist, theta, phi)
             bordercrossing = Fibril(coordinates[0], coordinates[1], L_0)
+    #coordinates is now updated
     coordinateshistory[1] = [coordinates[0], coordinates[1], coordinates[2]]
     D_xx = GetDTensorElementAddend(coordinateshistory, 0, 0, N_t, N_p, dt)
     D_xy = GetDTensorElementAddend(coordinateshistory, 0, 1, N_t, N_p, dt)
@@ -129,7 +130,9 @@ def SimulParticle(particle_index, N_t, N_p, dt, dr, L_0, T):
     D_yz = GetDTensorElementAddend(coordinateshistory, 1, 2, N_t, N_p, dt)
     D_zz = GetDTensorElementAddend(coordinateshistory, 2, 2, N_t, N_p, dt)
     # the tensor is symm.
-    return [[D_xx, D_xy, D_xz], [D_xy, D_yy, D_yz], [D_xz, D_yz, D_zz]]
+    return [[D_xx, D_xy, D_xz], 
+            [D_xy, D_yy, D_yz], 
+            [D_xz, D_yz, D_zz]]
 
 
 def MainLoop(N_t, N_p, dt, dr, L_0, T):
@@ -154,9 +157,8 @@ def MainLoop(N_t, N_p, dt, dr, L_0, T):
 # simulation start
 if __name__ == "__main__":
     for t in T:
-        DT = np.array([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+        DT = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
         sim_results = MainLoop(N_t, N_p, dt, dr, L_0, t)
-        print(len(sim_results))
         for result in sim_results:
             DT = [
                 [DT[i][j] + result[i][j] for j in range(len(DT[0]))]
@@ -188,4 +190,5 @@ if __name__ == "__main__":
 # plotting
 plt.scatter(Phis, D_1)
 plt.scatter(Phis, D_23)
+
 # %%
