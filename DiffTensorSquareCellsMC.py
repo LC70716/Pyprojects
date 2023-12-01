@@ -5,11 +5,13 @@ import numpy as np
 from numpy.linalg import eig
 import matplotlib.pyplot as plt
 import multiprocessing
+from numpy.random import MT19937
+from numpy.random import RandomState, SeedSequence
 
 # note that additional optimization may be performed by sampling directly the cosine and sine of random variables when calculating the "boost" function
 # note that particles DO NOT interact w/ each other
 
-N_p = 40000  # number of particles
+N_p = 400  # number of particles
 N_t = 30000  # number of time steps
 dt = 5e-9  ##s
 D_0 = 2.3e-3  ## mm^2/s
@@ -19,10 +21,11 @@ dr = np.sqrt(6 * D_0 * dt)
 # are therefore not treated since this effect is assumed to be negligible
 L_0 = 1e-4  ##mm
 T = []
+T.append(0)
 Phis = []
-for i in range(0, 17):
-    T.append(i * 0.1)
-T.append(193 / 120)
+#for i in range(0, 17):
+  #  T.append(i * 0.1)
+#T.append(193 / 120)
 # needs to be correlated to phi (volume fibrils/total volume) via computephi
 
 
@@ -63,72 +66,61 @@ def ComputePhi(T, points):
 
 # updates the coordinates by uniformily sampling the polar angles (dr is fixed by D_0 and dt)
 
-
+#THIS IS WELL WRITTEN, DO NOT TOUCH
 def Boost(coordinates, dr):
-    phi = np.random.uniform(0, np.pi)
-    theta = np.random.uniform(0, 2 * np.pi)
-    sin_phi = np.sin(phi)
-    coordinates[0] += dr * sin_phi * np.cos(theta)
-    coordinates[1] += dr * sin_phi * np.sin(theta)
+    theta = 2*np.pi*(np.random.uniform())
+    phi = np.arccos(2*np.random.uniform() - 1)
+    coordinates[0] += dr * np.sin(phi) * np.cos(theta)
+    coordinates[1] += dr * np.sin(phi) * np.sin(theta)
     coordinates[2] += dr * np.cos(phi)
-    return theta, phi
+    return phi, theta
 
 
 # returns a vector to be subtracted from the coordinates when a particle would fall into a fibril (ie Fibril(x,y,L_0) - T >= 0),dist is the distance
 # between where the particle would end up and the boundary : this is equal to Firbril(x,y,L_0) - T
-
 # NEED TO FIND A WAY TO CALCULATE INTERCEPTION POINT WITH FIBRIL
 
-
-def GetBorderPos(insidecoord, dist, theta, phi):
-        insidecoord[0] -= dist * np.sin(phi) * np.cos(theta)
-        insidecoord[1] -= dist * np.sin(phi) * np.sin(theta)
-        insidecoord[2] -= dist * np.cos(phi)
-
+def GetBorderPos(insidecoord, dist, phi, theta):
+        insidecoord[0] -= dist * np.sin(theta) * np.cos(phi)
+        insidecoord[1] -= dist * np.sin(theta) * np.sin(phi)
+        insidecoord[2] -= dist * np.cos(theta)
 
 # returns an addend of an element of the diffusion tensor, i and j are the components of the coordinates (0=x,1=y,2=z)
 
-
-def GetDTensorElementAddend(coordinateshistory, i, j, N_t, N_p, dt):
-    return (
-        (coordinateshistory[1][i] - coordinateshistory[0][i])
-        * (coordinateshistory[1][j] - coordinateshistory[0][j])
-        / (2 * N_t * dt * N_p)
-    )
-
+def GetDTensorElementAddend(coordinateshistory, i, j):
+    return (coordinateshistory[1][i] - coordinateshistory[0][i]) * (coordinateshistory[1][j] - coordinateshistory[0][j])
 
 # simulates one particle
 
-
 def SimulParticle(particle_index, N_t, N_p, dt, dr, L_0, T):
+    np.random.seed()
     coordinates = [
-        np.random.uniform(-1, 1),
-        np.random.uniform(-1, 1),
-        np.random.uniform(-1, 1),
+        np.random.uniform(0, L_0),
+        np.random.uniform(0, L_0),
+        np.random.uniform(0, L_0),
     ]
-    while Fibril(coordinates[0], coordinates[1], L_0) - T > 0:
-        coordinates = [
-            np.random.uniform(-1, 1),
-            np.random.uniform(-1, 1),
-            np.random.uniform(-1, 1),
-        ]
-    coordinateshistory = [[0, 0, 0], [0, 0, 0]]
-    coordinateshistory[0] = [coordinates[0], coordinates[1], coordinates[2]]
+    #while Fibril(coordinates[0], coordinates[1], L_0) - T > 0:
+    #    coordinates = [
+    #       np.random.uniform(-1, 1),
+    #        np.random.uniform(-1, 1),
+    #        np.random.uniform(-1, 1),
+    #    ]
+    coordinateshistory = [[coordinates[0], coordinates[1], coordinates[2]], []]
     for i in range(0, N_t):
         theta, phi = Boost(coordinates, dr)
-        bordercrossing = Fibril(coordinates[0], coordinates[1], L_0)
-        while bordercrossing - T > 0 :  # MUST PROPERLY EVALUATE DIST
-            dist =  dr/10  # work with this for the moment
-            GetBorderPos(coordinates, dist, theta, phi)
-            bordercrossing = Fibril(coordinates[0], coordinates[1], L_0)
+        #bordercrossing = Fibril(coordinates[0], coordinates[1], L_0)
+        #while bordercrossing - T > 0 :  # MUST PROPERLY EVALUATE DIST
+        #    dist =  dr/10  # work with this for the moment
+        #    GetBorderPos(coordinates, dist, theta, phi)
+        #    bordercrossing = Fibril(coordinates[0], coordinates[1], L_0)
     #coordinates is now updated
     coordinateshistory[1] = [coordinates[0], coordinates[1], coordinates[2]]
-    D_xx = GetDTensorElementAddend(coordinateshistory, 0, 0, N_t, N_p, dt)
-    D_xy = GetDTensorElementAddend(coordinateshistory, 0, 1, N_t, N_p, dt)
-    D_xz = GetDTensorElementAddend(coordinateshistory, 0, 2, N_t, N_p, dt)
-    D_yy = GetDTensorElementAddend(coordinateshistory, 1, 1, N_t, N_p, dt)
-    D_yz = GetDTensorElementAddend(coordinateshistory, 1, 2, N_t, N_p, dt)
-    D_zz = GetDTensorElementAddend(coordinateshistory, 2, 2, N_t, N_p, dt)
+    D_xx = GetDTensorElementAddend(coordinateshistory, 0, 0)/ (2 * N_t * dt * N_p)
+    D_xy = GetDTensorElementAddend(coordinateshistory, 0, 1)/ (2 * N_t * dt * N_p)
+    D_xz = GetDTensorElementAddend(coordinateshistory, 0, 2)/ (2 * N_t * dt * N_p)
+    D_yy = GetDTensorElementAddend(coordinateshistory, 1, 1)/ (2 * N_t * dt * N_p)
+    D_yz = GetDTensorElementAddend(coordinateshistory, 1, 2)/ (2 * N_t * dt * N_p)
+    D_zz = GetDTensorElementAddend(coordinateshistory, 2, 2)/ (2 * N_t * dt * N_p)
     # the tensor is symm.
     return [[D_xx, D_xy, D_xz], 
             [D_xy, D_yy, D_yz], 
@@ -138,19 +130,15 @@ def SimulParticle(particle_index, N_t, N_p, dt, dr, L_0, T):
 def MainLoop(N_t, N_p, dt, dr, L_0, T):
     pool = multiprocessing.Pool()  # Create a pool of worker processes
     results = []
-
     # Mapping the SimulParticle function to all particle indices in parallel
     for i in range(N_p):
         result = pool.apply_async(SimulParticle, args=(i, N_t, N_p, dt, dr, L_0, T))
         results.append(result)
-
     # Getting the results for all particles
     particle_results = [result.get() for result in results]
-
     # Closing the pool and waiting for all processes to finish
     pool.close()
     pool.join()
-
     return particle_results
 
 
@@ -165,30 +153,29 @@ if __name__ == "__main__":
                 for i in range(len(DT))
             ]
         print(DT)
-        w, v = np.linalg.eig(DT)
-        print("e-values:", w)
-        print("e-vectors:", v)
-        principal_eval = w[0]
-        mean_sec_eval = (w[1] + w[2]) / 2
-        if np.abs(v[2][1]) > np.abs(v[2][0]):
-            principal_eval = w[1]
-            mean_sec_eval = (w[0] + w[2]) / 2
-            if np.abs(v[2][2]) > np.abs(v[2][1]):
-                principal_eval = w[2]
-                mean_sec_eval = (w[0] + w[1]) / 2
+        evalues, evectors = np.linalg.eig(DT)
+        print("e-values:", evalues)
+        print("e-vectors:", evectors)
+        principal_eval = evalues[0]
+        mean_sec_eval = (evalues[1] + evalues[2]) / 2
+        if np.abs(evectors[2][1]) > np.abs(evectors[2][0]):
+            principal_eval = evalues[1]
+            mean_sec_eval = (evalues[0] + evalues[2]) / 2
+            if np.abs(evectors[2][2]) > np.abs(evectors[2][1]):
+                principal_eval = evalues[2]
+                mean_sec_eval = (evalues[0] + evalues[1]) / 2
         else:
-            if np.abs(v[2][2]) > np.abs(v[2][0]):
-                principal_eval = w[2]
-                mean_sec_eval = (w[0] + w[1]) / 2
+            if np.abs(evectors[2][2]) > np.abs(evectors[2][0]):
+                principal_eval = evalues[2]
+                mean_sec_eval = (evalues[0] + evalues[1]) / 2
         D_1.append(principal_eval)
         D_23.append(mean_sec_eval)
         print(t)
 
     # compute phis
-    for t in T:
-        Phis.append(ComputePhi(t, 1000))
+    #for t in T:
+    #   Phis.append(ComputePhi(t, 1000))
 # plotting
-plt.scatter(Phis, D_1)
-plt.scatter(Phis, D_23)
-
+#plt.scatter(Phis, D_1)
+#plt.scatter(Phis, D_23)
 # %%
