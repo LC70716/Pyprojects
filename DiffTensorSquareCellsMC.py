@@ -5,15 +5,14 @@ import numpy as np
 from numpy.linalg import eig
 import matplotlib.pyplot as plt
 import multiprocessing
-from numpy.random import MT19937
-from numpy.random import RandomState, SeedSequence
+from scipy.optimize import fsolve
 
 # note that additional optimization may be performed by sampling directly the cosine and sine of random variables when calculating the "boost" function
 # note that particles DO NOT interact w/ each other
 
-N_p = 400  # number of particles
+N_p = 40  # number of particles
 N_t = 30000  # number of time steps
-dt = 5e-9  ##s
+dt = 5e-9  #s
 D_0 = 2.3e-3  ## mm^2/s
 dr = np.sqrt(6 * D_0 * dt)
 # mm (order of 10^-6)
@@ -21,11 +20,10 @@ dr = np.sqrt(6 * D_0 * dt)
 # are therefore not treated since this effect is assumed to be negligible
 L_0 = 1e-4  ##mm
 T = []
-T.append(0)
 Phis = []
-#for i in range(0, 17):
-  #  T.append(i * 0.1)
-#T.append(193 / 120)
+for i in range(0, 17):
+    T.append(i * 0.1)
+T.append(193 / 120)
 # needs to be correlated to phi (volume fibrils/total volume) via computephi
 
 
@@ -54,6 +52,8 @@ def Fibril(x, y, L_0):
 
 # cannot properly verify numerically,only visually on the plot,seems to work
 
+def LineEq(x, m, q):
+    return m*x + q
 
 def ComputePhi(T, points):
     accepted = 0
@@ -73,17 +73,11 @@ def Boost(coordinates, dr):
     coordinates[0] += dr * np.sin(phi) * np.cos(theta)
     coordinates[1] += dr * np.sin(phi) * np.sin(theta)
     coordinates[2] += dr * np.cos(phi)
-    return phi, theta
 
-
-# returns a vector to be subtracted from the coordinates when a particle would fall into a fibril (ie Fibril(x,y,L_0) - T >= 0),dist is the distance
-# between where the particle would end up and the boundary : this is equal to Firbril(x,y,L_0) - T
-# NEED TO FIND A WAY TO CALCULATE INTERCEPTION POINT WITH FIBRIL
-
-def GetBorderPos(insidecoord, dist, phi, theta):
-        insidecoord[0] -= dist * np.sin(theta) * np.cos(phi)
-        insidecoord[1] -= dist * np.sin(theta) * np.sin(phi)
-        insidecoord[2] -= dist * np.cos(theta)
+def GetIntersect(coordinates, m, q):
+    guess = coordinates # Initial guess for the intersection point
+    intersection = fsolve(lambda xy: Fibril(xy[0], xy[1], L_0) - LineEq(xy[0],m,q), guess)
+    return intersection
 
 # returns an addend of an element of the diffusion tensor, i and j are the components of the coordinates (0=x,1=y,2=z)
 
@@ -99,20 +93,21 @@ def SimulParticle(particle_index, N_t, N_p, dt, dr, L_0, T):
         np.random.uniform(0, L_0),
         np.random.uniform(0, L_0),
     ]
-    #while Fibril(coordinates[0], coordinates[1], L_0) - T > 0:
-    #    coordinates = [
-    #       np.random.uniform(-1, 1),
-    #        np.random.uniform(-1, 1),
-    #        np.random.uniform(-1, 1),
-    #    ]
+    while Fibril(coordinates[0], coordinates[1], L_0) - T > 0:
+        coordinates = [
+           np.random.uniform(-1, 1),
+            np.random.uniform(-1, 1),
+            np.random.uniform(-1, 1),
+        ]
     coordinateshistory = [[coordinates[0], coordinates[1], coordinates[2]], []]
     for i in range(0, N_t):
-        theta, phi = Boost(coordinates, dr)
-        #bordercrossing = Fibril(coordinates[0], coordinates[1], L_0)
-        #while bordercrossing - T > 0 :  # MUST PROPERLY EVALUATE DIST
-        #    dist =  dr/10  # work with this for the moment
-        #    GetBorderPos(coordinates, dist, theta, phi)
-        #    bordercrossing = Fibril(coordinates[0], coordinates[1], L_0)
+        oldcoord = coordinates
+        Boost(coordinates, dr)
+        bordercrossing = Fibril(coordinates[0],coordinates[1],L_0)
+        if bordercrossing - T > 0 and oldcoord[1] != coordinates[1] :
+            m = (coordinates[1] - oldcoord[1])/(coordinates[0] - oldcoord[0])
+            q = coordinates[1] - m * coordinates[0]
+            coordinates = GetIntersect(coordinates, m, q)          
     #coordinates is now updated
     coordinateshistory[1] = [coordinates[0], coordinates[1], coordinates[2]]
     D_xx = GetDTensorElementAddend(coordinateshistory, 0, 0)/ (2 * N_t * dt * N_p)
@@ -157,25 +152,25 @@ if __name__ == "__main__":
         print("e-values:", evalues)
         print("e-vectors:", evectors)
         principal_eval = evalues[0]
-        mean_sec_eval = (evalues[1] + evalues[2]) / 2
+        mean_sec_eval = (sum(evalues-principal_eval)) / 2
         if np.abs(evectors[2][1]) > np.abs(evectors[2][0]):
             principal_eval = evalues[1]
-            mean_sec_eval = (evalues[0] + evalues[2]) / 2
+            mean_sec_eval = (sum(evalues-principal_eval)) / 2
             if np.abs(evectors[2][2]) > np.abs(evectors[2][1]):
                 principal_eval = evalues[2]
-                mean_sec_eval = (evalues[0] + evalues[1]) / 2
+                mean_sec_eval = (sum(evalues-principal_eval)) / 2
         else:
             if np.abs(evectors[2][2]) > np.abs(evectors[2][0]):
                 principal_eval = evalues[2]
-                mean_sec_eval = (evalues[0] + evalues[1]) / 2
+                mean_sec_eval = (sum(evalues-principal_eval)) / 2
         D_1.append(principal_eval)
         D_23.append(mean_sec_eval)
         print(t)
 
-    # compute phis
-    #for t in T:
-    #   Phis.append(ComputePhi(t, 1000))
+# compute phis
+    for t in T:
+        Phis.append(ComputePhi(t, 1000))
 # plotting
-#plt.scatter(Phis, D_1)
-#plt.scatter(Phis, D_23)
+    plt.scatter(Phis, D_1)
+    plt.scatter(Phis, D_23)
 # %%
