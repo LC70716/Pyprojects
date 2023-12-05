@@ -1,6 +1,3 @@
-# %%
-# This is a replica of the simulation proposed in "Diffusion tensor of water in model articular cartilage" by Konstantin I. Momot, Eur Biophys J (2011) 40:81–91,
-# DOI 10.1007/s00249-010-0629-4
 import numpy as np
 from numpy.linalg import eig
 import matplotlib.pyplot as plt
@@ -212,4 +209,3 @@ if __name__ == "__main__":
     # plotting
     plt.scatter(Phis, D_1)
     plt.scatter(Phis, D_23)
-# %%
