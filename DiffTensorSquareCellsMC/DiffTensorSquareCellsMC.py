@@ -1,3 +1,6 @@
+# %%
+# This is a replica of the simulation proposed in "Diffusion tensor of water in model articular cartilage" by Konstantin I. Momot, Eur Biophys J (2011) 40:81–91,
+# DOI 10.1007/s00249-010-0629-4
 import numpy as np
 from numpy.linalg import eig
 import matplotlib.pyplot as plt
@@ -99,10 +102,10 @@ def GetIntersect(
     for point in borderpoints:
         point_distances = []
         point_distances = np.array(point_distances)
-        for x in x_range :
-           distance = np.sqrt((point[0]-x)**2 + (point[1]-(m*x+q))**2)
-           point_distances = np.append(point_distances,distance) 
-        distances = np.append(distances,np.min(point_distances))
+        for x in x_range:
+            distance = np.sqrt((point[0] - x) ** 2 + (point[1] - (m * x + q)) ** 2)
+            point_distances = np.append(point_distances, distance)
+        distances = np.append(distances, np.min(point_distances))
     nearest_point_index = np.argmin(distances)
     nearest_point = borderpoints[nearest_point_index]
     return nearest_point[0], nearest_point[1]
@@ -209,3 +212,4 @@ if __name__ == "__main__":
     # plotting
     plt.scatter(Phis, D_1)
     plt.scatter(Phis, D_23)
+# %%
