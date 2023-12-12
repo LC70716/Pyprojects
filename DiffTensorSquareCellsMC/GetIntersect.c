@@ -4664,8 +4664,6 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
   double __pyx_t_16[3];
   double __pyx_t_17[3];
   double __pyx_t_18[3];
-  double __pyx_t_19[3];
-  double __pyx_t_20[3];
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -4807,7 +4805,7 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
  *     cdef double dy = (coordinates[1] - oldcoord[1]) / 50.0
  *     cdef double m = 0.0             # <<<<<<<<<<<<<<
  *     cdef double q = 0.0
- *     cdef double i = x + dx
+ *     cdef double i = 0
  */
   __pyx_v_m = 0.0;
 
@@ -4815,76 +4813,85 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
  *     cdef double dy = (coordinates[1] - oldcoord[1]) / 50.0
  *     cdef double m = 0.0
  *     cdef double q = 0.0             # <<<<<<<<<<<<<<
- *     cdef double i = x + dx
- *     cdef double j = y + dy
+ *     cdef double i = 0
+ *     cdef double j = 0
  */
   __pyx_v_q = 0.0;
 
   /* "GetIntersect.pyx":20
  *     cdef double m = 0.0
  *     cdef double q = 0.0
- *     cdef double i = x + dx             # <<<<<<<<<<<<<<
- *     cdef double j = y + dy
- * 
+ *     cdef double i = 0             # <<<<<<<<<<<<<<
+ *     cdef double j = 0
+ *     if dx != 0.0:
  */
-  __pyx_v_i = (__pyx_v_x + __pyx_v_dx);
+  __pyx_v_i = 0.0;
 
   /* "GetIntersect.pyx":21
  *     cdef double q = 0.0
- *     cdef double i = x + dx
- *     cdef double j = y + dy             # <<<<<<<<<<<<<<
- * 
- *     if oldcoord[0] <= coordinates[1]:
+ *     cdef double i = 0
+ *     cdef double j = 0             # <<<<<<<<<<<<<<
+ *     if dx != 0.0:
+ *         i = x + dx
  */
-  __pyx_v_j = (__pyx_v_y + __pyx_v_dy);
+  __pyx_v_j = 0.0;
 
-  /* "GetIntersect.pyx":23
- *     cdef double j = y + dy
- * 
- *     if oldcoord[0] <= coordinates[1]:             # <<<<<<<<<<<<<<
- *         # checks if x_fin >= x_in, basically the way in which the segment is travelled by the particle
- *         if dx != 0.0:
+  /* "GetIntersect.pyx":22
+ *     cdef double i = 0
+ *     cdef double j = 0
+ *     if dx != 0.0:             # <<<<<<<<<<<<<<
+ *         i = x + dx
+ *         m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
  */
-  __pyx_t_11 = (__pyx_v_oldcoord.f0 <= __pyx_v_coordinates.f1);
+  __pyx_t_11 = (__pyx_v_dx != 0.0);
   if (__pyx_t_11) {
 
-    /* "GetIntersect.pyx":25
- *     if oldcoord[0] <= coordinates[1]:
- *         # checks if x_fin >= x_in, basically the way in which the segment is travelled by the particle
- *         if dx != 0.0:             # <<<<<<<<<<<<<<
- *             m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
- *             q = coordinates[1] - m * coordinates[0]
+    /* "GetIntersect.pyx":23
+ *     cdef double j = 0
+ *     if dx != 0.0:
+ *         i = x + dx             # <<<<<<<<<<<<<<
+ *         m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
+ *         q = coordinates[1] - m * coordinates[0]
  */
-    __pyx_t_11 = (__pyx_v_dx != 0.0);
-    if (__pyx_t_11) {
+    __pyx_v_i = (__pyx_v_x + __pyx_v_dx);
 
-      /* "GetIntersect.pyx":26
- *         # checks if x_fin >= x_in, basically the way in which the segment is travelled by the particle
- *         if dx != 0.0:
- *             m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])             # <<<<<<<<<<<<<<
- *             q = coordinates[1] - m * coordinates[0]
+    /* "GetIntersect.pyx":24
+ *     if dx != 0.0:
+ *         i = x + dx
+ *         m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])             # <<<<<<<<<<<<<<
+ *         q = coordinates[1] - m * coordinates[0]
+ *         if oldcoord[0] <= coordinates[0]:
+ */
+    __pyx_t_12 = (__pyx_v_coordinates.f1 - __pyx_v_oldcoord.f1);
+    __pyx_t_13 = (__pyx_v_coordinates.f0 - __pyx_v_oldcoord.f0);
+    if (unlikely(__pyx_t_13 == 0)) {
+      PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+      __PYX_ERR(2, 24, __pyx_L1_error)
+    }
+    __pyx_v_m = (__pyx_t_12 / __pyx_t_13);
+
+    /* "GetIntersect.pyx":25
+ *         i = x + dx
+ *         m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
+ *         q = coordinates[1] - m * coordinates[0]             # <<<<<<<<<<<<<<
+ *         if oldcoord[0] <= coordinates[0]:
  *             while i <= coordinates[0]:
  */
-      __pyx_t_12 = (__pyx_v_coordinates.f1 - __pyx_v_oldcoord.f1);
-      __pyx_t_13 = (__pyx_v_coordinates.f0 - __pyx_v_oldcoord.f0);
-      if (unlikely(__pyx_t_13 == 0)) {
-        PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(2, 26, __pyx_L1_error)
-      }
-      __pyx_v_m = (__pyx_t_12 / __pyx_t_13);
+    __pyx_v_q = (__pyx_v_coordinates.f1 - (__pyx_v_m * __pyx_v_coordinates.f0));
 
-      /* "GetIntersect.pyx":27
- *         if dx != 0.0:
- *             m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
- *             q = coordinates[1] - m * coordinates[0]             # <<<<<<<<<<<<<<
+    /* "GetIntersect.pyx":26
+ *         m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
+ *         q = coordinates[1] - m * coordinates[0]
+ *         if oldcoord[0] <= coordinates[0]:             # <<<<<<<<<<<<<<
  *             while i <= coordinates[0]:
  *                 j = m * i + q
  */
-      __pyx_v_q = (__pyx_v_coordinates.f1 - (__pyx_v_m * __pyx_v_coordinates.f0));
+    __pyx_t_11 = (__pyx_v_oldcoord.f0 <= __pyx_v_coordinates.f0);
+    if (__pyx_t_11) {
 
-      /* "GetIntersect.pyx":28
- *             m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
- *             q = coordinates[1] - m * coordinates[0]
+      /* "GetIntersect.pyx":27
+ *         q = coordinates[1] - m * coordinates[0]
+ *         if oldcoord[0] <= coordinates[0]:
  *             while i <= coordinates[0]:             # <<<<<<<<<<<<<<
  *                 j = m * i + q
  *                 checking = [i, j, z]
@@ -4893,8 +4900,8 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
         __pyx_t_11 = (__pyx_v_i <= __pyx_v_coordinates.f0);
         if (!__pyx_t_11) break;
 
-        /* "GetIntersect.pyx":29
- *             q = coordinates[1] - m * coordinates[0]
+        /* "GetIntersect.pyx":28
+ *         if oldcoord[0] <= coordinates[0]:
  *             while i <= coordinates[0]:
  *                 j = m * i + q             # <<<<<<<<<<<<<<
  *                 checking = [i, j, z]
@@ -4902,7 +4909,7 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
  */
         __pyx_v_j = ((__pyx_v_m * __pyx_v_i) + __pyx_v_q);
 
-        /* "GetIntersect.pyx":30
+        /* "GetIntersect.pyx":29
  *             while i <= coordinates[0]:
  *                 j = m * i + q
  *                 checking = [i, j, z]             # <<<<<<<<<<<<<<
@@ -4914,23 +4921,23 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
         __pyx_t_14[2] = __pyx_v_z;
         memcpy(&(__pyx_v_checking[0]), __pyx_t_14, sizeof(__pyx_v_checking[0]) * (3));
 
-        /* "GetIntersect.pyx":31
+        /* "GetIntersect.pyx":30
  *                 j = m * i + q
  *                 checking = [i, j, z]
  *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T             # <<<<<<<<<<<<<<
  *                 if Bordereq > 0:
  *                     break
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 31, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 30, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 31, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 30, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = PyFloat_FromDouble((__pyx_v_checking[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 31, __pyx_L1_error)
+        __pyx_t_4 = PyFloat_FromDouble((__pyx_v_checking[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 30, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_5 = PyFloat_FromDouble((__pyx_v_checking[1])); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 31, __pyx_L1_error)
+        __pyx_t_5 = PyFloat_FromDouble((__pyx_v_checking[1])); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 30, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_L_0); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 31, __pyx_L1_error)
+        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_L_0); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 30, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __pyx_t_7 = NULL;
         __pyx_t_8 = 0;
@@ -4953,21 +4960,21 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 31, __pyx_L1_error)
+          if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 30, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         }
-        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_T); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 31, __pyx_L1_error)
+        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_T); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 30, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_3 = PyNumber_Subtract(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 31, __pyx_L1_error)
+        __pyx_t_3 = PyNumber_Subtract(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 30, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 31, __pyx_L1_error)
+        __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 30, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_v_Bordereq = __pyx_t_9;
 
-        /* "GetIntersect.pyx":32
+        /* "GetIntersect.pyx":31
  *                 checking = [i, j, z]
  *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
  *                 if Bordereq > 0:             # <<<<<<<<<<<<<<
@@ -4977,7 +4984,7 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
         __pyx_t_11 = (__pyx_v_Bordereq > 0.0);
         if (__pyx_t_11) {
 
-          /* "GetIntersect.pyx":33
+          /* "GetIntersect.pyx":32
  *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
  *                 if Bordereq > 0:
  *                     break             # <<<<<<<<<<<<<<
@@ -4986,7 +4993,7 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
  */
           goto __pyx_L6_break;
 
-          /* "GetIntersect.pyx":32
+          /* "GetIntersect.pyx":31
  *                 checking = [i, j, z]
  *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
  *                 if Bordereq > 0:             # <<<<<<<<<<<<<<
@@ -4995,7 +5002,7 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
  */
         }
 
-        /* "GetIntersect.pyx":34
+        /* "GetIntersect.pyx":33
  *                 if Bordereq > 0:
  *                     break
  *                 if Bordereq > minBorderDist:             # <<<<<<<<<<<<<<
@@ -5005,7 +5012,7 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
         __pyx_t_11 = (__pyx_v_Bordereq > __pyx_v_minBorderDist);
         if (__pyx_t_11) {
 
-          /* "GetIntersect.pyx":35
+          /* "GetIntersect.pyx":34
  *                     break
  *                 if Bordereq > minBorderDist:
  *                     minBorderDist = Bordereq             # <<<<<<<<<<<<<<
@@ -5014,7 +5021,7 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
  */
           __pyx_v_minBorderDist = __pyx_v_Bordereq;
 
-          /* "GetIntersect.pyx":36
+          /* "GetIntersect.pyx":35
  *                 if Bordereq > minBorderDist:
  *                     minBorderDist = Bordereq
  *                     nearest_point[0] = i             # <<<<<<<<<<<<<<
@@ -5023,7 +5030,7 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
  */
           (__pyx_v_nearest_point[0]) = __pyx_v_i;
 
-          /* "GetIntersect.pyx":37
+          /* "GetIntersect.pyx":36
  *                     minBorderDist = Bordereq
  *                     nearest_point[0] = i
  *                     nearest_point[1] = j             # <<<<<<<<<<<<<<
@@ -5032,7 +5039,7 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
  */
           (__pyx_v_nearest_point[1]) = __pyx_v_j;
 
-          /* "GetIntersect.pyx":34
+          /* "GetIntersect.pyx":33
  *                 if Bordereq > 0:
  *                     break
  *                 if Bordereq > minBorderDist:             # <<<<<<<<<<<<<<
@@ -5041,7 +5048,7 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
  */
         }
 
-        /* "GetIntersect.pyx":38
+        /* "GetIntersect.pyx":37
  *                     nearest_point[0] = i
  *                     nearest_point[1] = j
  *                 i += dx             # <<<<<<<<<<<<<<
@@ -5052,31 +5059,31 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
       }
       __pyx_L6_break:;
 
-      /* "GetIntersect.pyx":39
+      /* "GetIntersect.pyx":38
  *                     nearest_point[1] = j
  *                 i += dx
  *             nearest_point[2] = z + (             # <<<<<<<<<<<<<<
  *                 (nearest_point[0] - oldcoord[0]) / (np.tan(phi) * np.cos(theta))
  *             )
  */
-      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_z); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 39, __pyx_L1_error)
+      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_z); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 38, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
 
-      /* "GetIntersect.pyx":40
+      /* "GetIntersect.pyx":39
  *                 i += dx
  *             nearest_point[2] = z + (
  *                 (nearest_point[0] - oldcoord[0]) / (np.tan(phi) * np.cos(theta))             # <<<<<<<<<<<<<<
  *             )
  *         else:
  */
-      __pyx_t_2 = PyFloat_FromDouble(((__pyx_v_nearest_point[0]) - __pyx_v_oldcoord.f0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 40, __pyx_L1_error)
+      __pyx_t_2 = PyFloat_FromDouble(((__pyx_v_nearest_point[0]) - __pyx_v_oldcoord.f0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 39, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 40, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 39, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_tan); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 40, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_tan); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 39, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyFloat_FromDouble(__pyx_v_phi); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 40, __pyx_L1_error)
+      __pyx_t_5 = PyFloat_FromDouble(__pyx_v_phi); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 39, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_7 = NULL;
       __pyx_t_8 = 0;
@@ -5097,16 +5104,16 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
         __pyx_t_6 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 40, __pyx_L1_error)
+        if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 39, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       }
-      __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 40, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 39, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_cos); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 40, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_cos); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 39, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyFloat_FromDouble(__pyx_v_theta); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 40, __pyx_L1_error)
+      __pyx_t_5 = PyFloat_FromDouble(__pyx_v_theta); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 39, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_15 = NULL;
       __pyx_t_8 = 0;
@@ -5127,671 +5134,58 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
         __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_7, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
         __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 40, __pyx_L1_error)
+        if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 39, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       }
-      __pyx_t_7 = PyNumber_Multiply(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 40, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Multiply(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 39, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 40, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 39, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "GetIntersect.pyx":39
+      /* "GetIntersect.pyx":38
  *                     nearest_point[1] = j
  *                 i += dx
  *             nearest_point[2] = z + (             # <<<<<<<<<<<<<<
  *                 (nearest_point[0] - oldcoord[0]) / (np.tan(phi) * np.cos(theta))
  *             )
  */
-      __pyx_t_7 = PyNumber_Add(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 39, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Add(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 38, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 39, __pyx_L1_error)
+      __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 38, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       (__pyx_v_nearest_point[2]) = __pyx_t_9;
 
-      /* "GetIntersect.pyx":25
- *     if oldcoord[0] <= coordinates[1]:
- *         # checks if x_fin >= x_in, basically the way in which the segment is travelled by the particle
- *         if dx != 0.0:             # <<<<<<<<<<<<<<
- *             m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
- *             q = coordinates[1] - m * coordinates[0]
+      /* "GetIntersect.pyx":26
+ *         m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
+ *         q = coordinates[1] - m * coordinates[0]
+ *         if oldcoord[0] <= coordinates[0]:             # <<<<<<<<<<<<<<
+ *             while i <= coordinates[0]:
+ *                 j = m * i + q
  */
       goto __pyx_L4;
     }
 
-    /* "GetIntersect.pyx":43
+    /* "GetIntersect.pyx":42
  *             )
  *         else:
- *             if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in             # <<<<<<<<<<<<<<
- *                 while j <= coordinates[1]:
- *                     checking = [x, j, z]
- */
-    /*else*/ {
-      __pyx_t_11 = (__pyx_v_oldcoord.f1 <= __pyx_v_coordinates.f1);
-      if (__pyx_t_11) {
-
-        /* "GetIntersect.pyx":44
- *         else:
- *             if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in
- *                 while j <= coordinates[1]:             # <<<<<<<<<<<<<<
- *                     checking = [x, j, z]
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- */
-        while (1) {
-          __pyx_t_11 = (__pyx_v_j <= __pyx_v_coordinates.f1);
-          if (!__pyx_t_11) break;
-
-          /* "GetIntersect.pyx":45
- *             if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in
- *                 while j <= coordinates[1]:
- *                     checking = [x, j, z]             # <<<<<<<<<<<<<<
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                     if Bordereq > 0:
- */
-          __pyx_t_16[0] = __pyx_v_x;
-          __pyx_t_16[1] = __pyx_v_j;
-          __pyx_t_16[2] = __pyx_v_z;
-          memcpy(&(__pyx_v_checking[0]), __pyx_t_16, sizeof(__pyx_v_checking[0]) * (3));
-
-          /* "GetIntersect.pyx":46
- *                 while j <= coordinates[1]:
- *                     checking = [x, j, z]
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T             # <<<<<<<<<<<<<<
- *                     if Bordereq > 0:
- *                         break
- */
-          __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 46, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 46, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_4 = PyFloat_FromDouble((__pyx_v_checking[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 46, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_2 = PyFloat_FromDouble((__pyx_v_checking[1])); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 46, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_6 = PyFloat_FromDouble(__pyx_v_L_0); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 46, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_6);
-          __pyx_t_5 = NULL;
-          __pyx_t_8 = 0;
-          #if CYTHON_UNPACK_METHODS
-          if (unlikely(PyMethod_Check(__pyx_t_3))) {
-            __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
-            if (likely(__pyx_t_5)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-              __Pyx_INCREF(__pyx_t_5);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_3, function);
-              __pyx_t_8 = 1;
-            }
-          }
-          #endif
-          {
-            PyObject *__pyx_callargs[4] = {__pyx_t_5, __pyx_t_4, __pyx_t_2, __pyx_t_6};
-            __pyx_t_7 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_8, 3+__pyx_t_8);
-            __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-            if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 46, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_7);
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          }
-          __pyx_t_3 = PyFloat_FromDouble(__pyx_v_T); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 46, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_6 = PyNumber_Subtract(__pyx_t_7, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 46, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_6);
-          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 46, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __pyx_v_Bordereq = __pyx_t_9;
-
-          /* "GetIntersect.pyx":47
- *                     checking = [x, j, z]
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                     if Bordereq > 0:             # <<<<<<<<<<<<<<
- *                         break
- *                     if Bordereq > minBorderDist:
- */
-          __pyx_t_11 = (__pyx_v_Bordereq > 0.0);
-          if (__pyx_t_11) {
-
-            /* "GetIntersect.pyx":48
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                     if Bordereq > 0:
- *                         break             # <<<<<<<<<<<<<<
- *                     if Bordereq > minBorderDist:
- *                         minBorderDist = Bordereq
- */
-            goto __pyx_L11_break;
-
-            /* "GetIntersect.pyx":47
- *                     checking = [x, j, z]
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                     if Bordereq > 0:             # <<<<<<<<<<<<<<
- *                         break
- *                     if Bordereq > minBorderDist:
- */
-          }
-
-          /* "GetIntersect.pyx":49
- *                     if Bordereq > 0:
- *                         break
- *                     if Bordereq > minBorderDist:             # <<<<<<<<<<<<<<
- *                         minBorderDist = Bordereq
- *                         nearest_point[0] = x
- */
-          __pyx_t_11 = (__pyx_v_Bordereq > __pyx_v_minBorderDist);
-          if (__pyx_t_11) {
-
-            /* "GetIntersect.pyx":50
- *                         break
- *                     if Bordereq > minBorderDist:
- *                         minBorderDist = Bordereq             # <<<<<<<<<<<<<<
- *                         nearest_point[0] = x
- *                         nearest_point[1] = j
- */
-            __pyx_v_minBorderDist = __pyx_v_Bordereq;
-
-            /* "GetIntersect.pyx":51
- *                     if Bordereq > minBorderDist:
- *                         minBorderDist = Bordereq
- *                         nearest_point[0] = x             # <<<<<<<<<<<<<<
- *                         nearest_point[1] = j
- *                     j += dy
- */
-            (__pyx_v_nearest_point[0]) = __pyx_v_x;
-
-            /* "GetIntersect.pyx":52
- *                         minBorderDist = Bordereq
- *                         nearest_point[0] = x
- *                         nearest_point[1] = j             # <<<<<<<<<<<<<<
- *                     j += dy
- *                 nearest_point[2] = z + (
- */
-            (__pyx_v_nearest_point[1]) = __pyx_v_j;
-
-            /* "GetIntersect.pyx":49
- *                     if Bordereq > 0:
- *                         break
- *                     if Bordereq > minBorderDist:             # <<<<<<<<<<<<<<
- *                         minBorderDist = Bordereq
- *                         nearest_point[0] = x
- */
-          }
-
-          /* "GetIntersect.pyx":53
- *                         nearest_point[0] = x
- *                         nearest_point[1] = j
- *                     j += dy             # <<<<<<<<<<<<<<
- *                 nearest_point[2] = z + (
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
- */
-          __pyx_v_j = (__pyx_v_j + __pyx_v_dy);
-        }
-        __pyx_L11_break:;
-
-        /* "GetIntersect.pyx":54
- *                         nearest_point[1] = j
- *                     j += dy
- *                 nearest_point[2] = z + (             # <<<<<<<<<<<<<<
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
- *                 )
- */
-        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_z); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 54, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-
-        /* "GetIntersect.pyx":55
- *                     j += dy
- *                 nearest_point[2] = z + (
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))             # <<<<<<<<<<<<<<
- *                 )
- *             if oldcoord[1] >= coordinates[1]:
- */
-        __pyx_t_3 = PyFloat_FromDouble(((__pyx_v_nearest_point[1]) - __pyx_v_oldcoord.f1)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 55, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 55, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_tan); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 55, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_phi); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 55, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_5 = NULL;
-        __pyx_t_8 = 0;
-        #if CYTHON_UNPACK_METHODS
-        if (unlikely(PyMethod_Check(__pyx_t_4))) {
-          __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-          if (likely(__pyx_t_5)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-            __Pyx_INCREF(__pyx_t_5);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_4, function);
-            __pyx_t_8 = 1;
-          }
-        }
-        #endif
-        {
-          PyObject *__pyx_callargs[2] = {__pyx_t_5, __pyx_t_2};
-          __pyx_t_7 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
-          __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 55, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_7);
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        }
-        __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 55, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_sin); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 55, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_theta); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 55, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_15 = NULL;
-        __pyx_t_8 = 0;
-        #if CYTHON_UNPACK_METHODS
-        if (unlikely(PyMethod_Check(__pyx_t_5))) {
-          __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_5);
-          if (likely(__pyx_t_15)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-            __Pyx_INCREF(__pyx_t_15);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_5, function);
-            __pyx_t_8 = 1;
-          }
-        }
-        #endif
-        {
-          PyObject *__pyx_callargs[2] = {__pyx_t_15, __pyx_t_2};
-          __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
-          __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 55, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        }
-        __pyx_t_5 = PyNumber_Multiply(__pyx_t_7, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 55, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 55, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-        /* "GetIntersect.pyx":54
- *                         nearest_point[1] = j
- *                     j += dy
- *                 nearest_point[2] = z + (             # <<<<<<<<<<<<<<
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
- *                 )
- */
-        __pyx_t_5 = PyNumber_Add(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 54, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 54, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        (__pyx_v_nearest_point[2]) = __pyx_t_9;
-
-        /* "GetIntersect.pyx":43
- *             )
- *         else:
- *             if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in             # <<<<<<<<<<<<<<
- *                 while j <= coordinates[1]:
- *                     checking = [x, j, z]
- */
-      }
-
-      /* "GetIntersect.pyx":57
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
- *                 )
- *             if oldcoord[1] >= coordinates[1]:             # <<<<<<<<<<<<<<
- *                 while j >= coordinates[1]:
- *                     checking = [x, j, z]
- */
-      __pyx_t_11 = (__pyx_v_oldcoord.f1 >= __pyx_v_coordinates.f1);
-      if (__pyx_t_11) {
-
-        /* "GetIntersect.pyx":58
- *                 )
- *             if oldcoord[1] >= coordinates[1]:
- *                 while j >= coordinates[1]:             # <<<<<<<<<<<<<<
- *                     checking = [x, j, z]
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- */
-        while (1) {
-          __pyx_t_11 = (__pyx_v_j >= __pyx_v_coordinates.f1);
-          if (!__pyx_t_11) break;
-
-          /* "GetIntersect.pyx":59
- *             if oldcoord[1] >= coordinates[1]:
- *                 while j >= coordinates[1]:
- *                     checking = [x, j, z]             # <<<<<<<<<<<<<<
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                     if Bordereq > 0:
- */
-          __pyx_t_17[0] = __pyx_v_x;
-          __pyx_t_17[1] = __pyx_v_j;
-          __pyx_t_17[2] = __pyx_v_z;
-          memcpy(&(__pyx_v_checking[0]), __pyx_t_17, sizeof(__pyx_v_checking[0]) * (3));
-
-          /* "GetIntersect.pyx":60
- *                 while j >= coordinates[1]:
- *                     checking = [x, j, z]
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T             # <<<<<<<<<<<<<<
- *                     if Bordereq > 0:
- *                         break
- */
-          __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 60, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 60, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_6);
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_4 = PyFloat_FromDouble((__pyx_v_checking[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 60, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_3 = PyFloat_FromDouble((__pyx_v_checking[1])); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 60, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_7 = PyFloat_FromDouble(__pyx_v_L_0); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 60, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_2 = NULL;
-          __pyx_t_8 = 0;
-          #if CYTHON_UNPACK_METHODS
-          if (unlikely(PyMethod_Check(__pyx_t_6))) {
-            __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_6);
-            if (likely(__pyx_t_2)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-              __Pyx_INCREF(__pyx_t_2);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_6, function);
-              __pyx_t_8 = 1;
-            }
-          }
-          #endif
-          {
-            PyObject *__pyx_callargs[4] = {__pyx_t_2, __pyx_t_4, __pyx_t_3, __pyx_t_7};
-            __pyx_t_5 = __Pyx_PyObject_FastCall(__pyx_t_6, __pyx_callargs+1-__pyx_t_8, 3+__pyx_t_8);
-            __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-            __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-            if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 60, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_5);
-            __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          }
-          __pyx_t_6 = PyFloat_FromDouble(__pyx_v_T); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 60, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_6);
-          __pyx_t_7 = PyNumber_Subtract(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 60, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_7);
-          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 60, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          __pyx_v_Bordereq = __pyx_t_9;
-
-          /* "GetIntersect.pyx":61
- *                     checking = [x, j, z]
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                     if Bordereq > 0:             # <<<<<<<<<<<<<<
- *                         break
- *                     if Bordereq > minBorderDist:
- */
-          __pyx_t_11 = (__pyx_v_Bordereq > 0.0);
-          if (__pyx_t_11) {
-
-            /* "GetIntersect.pyx":62
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                     if Bordereq > 0:
- *                         break             # <<<<<<<<<<<<<<
- *                     if Bordereq > minBorderDist:
- *                         minBorderDist = Bordereq
- */
-            goto __pyx_L16_break;
-
-            /* "GetIntersect.pyx":61
- *                     checking = [x, j, z]
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                     if Bordereq > 0:             # <<<<<<<<<<<<<<
- *                         break
- *                     if Bordereq > minBorderDist:
- */
-          }
-
-          /* "GetIntersect.pyx":63
- *                     if Bordereq > 0:
- *                         break
- *                     if Bordereq > minBorderDist:             # <<<<<<<<<<<<<<
- *                         minBorderDist = Bordereq
- *                         nearest_point[0] = x
- */
-          __pyx_t_11 = (__pyx_v_Bordereq > __pyx_v_minBorderDist);
-          if (__pyx_t_11) {
-
-            /* "GetIntersect.pyx":64
- *                         break
- *                     if Bordereq > minBorderDist:
- *                         minBorderDist = Bordereq             # <<<<<<<<<<<<<<
- *                         nearest_point[0] = x
- *                         nearest_point[1] = j
- */
-            __pyx_v_minBorderDist = __pyx_v_Bordereq;
-
-            /* "GetIntersect.pyx":65
- *                     if Bordereq > minBorderDist:
- *                         minBorderDist = Bordereq
- *                         nearest_point[0] = x             # <<<<<<<<<<<<<<
- *                         nearest_point[1] = j
- *                     j += dy
- */
-            (__pyx_v_nearest_point[0]) = __pyx_v_x;
-
-            /* "GetIntersect.pyx":66
- *                         minBorderDist = Bordereq
- *                         nearest_point[0] = x
- *                         nearest_point[1] = j             # <<<<<<<<<<<<<<
- *                     j += dy
- *                 nearest_point[2] = z + (
- */
-            (__pyx_v_nearest_point[1]) = __pyx_v_j;
-
-            /* "GetIntersect.pyx":63
- *                     if Bordereq > 0:
- *                         break
- *                     if Bordereq > minBorderDist:             # <<<<<<<<<<<<<<
- *                         minBorderDist = Bordereq
- *                         nearest_point[0] = x
- */
-          }
-
-          /* "GetIntersect.pyx":67
- *                         nearest_point[0] = x
- *                         nearest_point[1] = j
- *                     j += dy             # <<<<<<<<<<<<<<
- *                 nearest_point[2] = z + (
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
- */
-          __pyx_v_j = (__pyx_v_j + __pyx_v_dy);
-        }
-        __pyx_L16_break:;
-
-        /* "GetIntersect.pyx":68
- *                         nearest_point[1] = j
- *                     j += dy
- *                 nearest_point[2] = z + (             # <<<<<<<<<<<<<<
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
- *                 )
- */
-        __pyx_t_7 = PyFloat_FromDouble(__pyx_v_z); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 68, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-
-        /* "GetIntersect.pyx":69
- *                     j += dy
- *                 nearest_point[2] = z + (
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))             # <<<<<<<<<<<<<<
- *                 )
- *     else:
- */
-        __pyx_t_6 = PyFloat_FromDouble(((__pyx_v_nearest_point[1]) - __pyx_v_oldcoord.f1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 69, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 69, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_tan); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 69, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_phi); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 69, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_2 = NULL;
-        __pyx_t_8 = 0;
-        #if CYTHON_UNPACK_METHODS
-        if (unlikely(PyMethod_Check(__pyx_t_4))) {
-          __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_4);
-          if (likely(__pyx_t_2)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-            __Pyx_INCREF(__pyx_t_2);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_4, function);
-            __pyx_t_8 = 1;
-          }
-        }
-        #endif
-        {
-          PyObject *__pyx_callargs[2] = {__pyx_t_2, __pyx_t_3};
-          __pyx_t_5 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
-          __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 69, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_5);
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        }
-        __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 69, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_sin); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 69, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_theta); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 69, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_15 = NULL;
-        __pyx_t_8 = 0;
-        #if CYTHON_UNPACK_METHODS
-        if (unlikely(PyMethod_Check(__pyx_t_2))) {
-          __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_2);
-          if (likely(__pyx_t_15)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-            __Pyx_INCREF(__pyx_t_15);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_2, function);
-            __pyx_t_8 = 1;
-          }
-        }
-        #endif
-        {
-          PyObject *__pyx_callargs[2] = {__pyx_t_15, __pyx_t_3};
-          __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
-          __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 69, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        }
-        __pyx_t_2 = PyNumber_Multiply(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 69, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 69, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-        /* "GetIntersect.pyx":68
- *                         nearest_point[1] = j
- *                     j += dy
- *                 nearest_point[2] = z + (             # <<<<<<<<<<<<<<
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
- *                 )
- */
-        __pyx_t_2 = PyNumber_Add(__pyx_t_7, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 68, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 68, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        (__pyx_v_nearest_point[2]) = __pyx_t_9;
-
-        /* "GetIntersect.pyx":57
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
- *                 )
- *             if oldcoord[1] >= coordinates[1]:             # <<<<<<<<<<<<<<
- *                 while j >= coordinates[1]:
- *                     checking = [x, j, z]
- */
-      }
-    }
-    __pyx_L4:;
-
-    /* "GetIntersect.pyx":23
- *     cdef double j = y + dy
- * 
- *     if oldcoord[0] <= coordinates[1]:             # <<<<<<<<<<<<<<
- *         # checks if x_fin >= x_in, basically the way in which the segment is travelled by the particle
- *         if dx != 0.0:
- */
-    goto __pyx_L3;
-  }
-
-  /* "GetIntersect.pyx":73
- *     else:
- *         # in this case x_in >= x_fin, so the condition in the while loop is changed
- *         if dx != 0.0:             # <<<<<<<<<<<<<<
- *             m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
- *             q = coordinates[1] - m * coordinates[0]
- */
-  /*else*/ {
-    __pyx_t_11 = (__pyx_v_dx != 0.0);
-    if (__pyx_t_11) {
-
-      /* "GetIntersect.pyx":74
- *         # in this case x_in >= x_fin, so the condition in the while loop is changed
- *         if dx != 0.0:
- *             m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])             # <<<<<<<<<<<<<<
- *             q = coordinates[1] - m * coordinates[0]
- *             while i >= coordinates[0]:
- */
-      __pyx_t_13 = (__pyx_v_coordinates.f1 - __pyx_v_oldcoord.f1);
-      __pyx_t_12 = (__pyx_v_coordinates.f0 - __pyx_v_oldcoord.f0);
-      if (unlikely(__pyx_t_12 == 0)) {
-        PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(2, 74, __pyx_L1_error)
-      }
-      __pyx_v_m = (__pyx_t_13 / __pyx_t_12);
-
-      /* "GetIntersect.pyx":75
- *         if dx != 0.0:
- *             m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
- *             q = coordinates[1] - m * coordinates[0]             # <<<<<<<<<<<<<<
- *             while i >= coordinates[0]:
- *                 j = m * i + q
- */
-      __pyx_v_q = (__pyx_v_coordinates.f1 - (__pyx_v_m * __pyx_v_coordinates.f0));
-
-      /* "GetIntersect.pyx":76
- *             m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
- *             q = coordinates[1] - m * coordinates[0]
  *             while i >= coordinates[0]:             # <<<<<<<<<<<<<<
  *                 j = m * i + q
  *                 checking = [i, j, z]
  */
+    /*else*/ {
       while (1) {
         __pyx_t_11 = (__pyx_v_i >= __pyx_v_coordinates.f0);
         if (!__pyx_t_11) break;
 
-        /* "GetIntersect.pyx":77
- *             q = coordinates[1] - m * coordinates[0]
+        /* "GetIntersect.pyx":43
+ *         else:
  *             while i >= coordinates[0]:
  *                 j = m * i + q             # <<<<<<<<<<<<<<
  *                 checking = [i, j, z]
@@ -5799,35 +5193,624 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
  */
         __pyx_v_j = ((__pyx_v_m * __pyx_v_i) + __pyx_v_q);
 
-        /* "GetIntersect.pyx":78
+        /* "GetIntersect.pyx":44
  *             while i >= coordinates[0]:
  *                 j = m * i + q
  *                 checking = [i, j, z]             # <<<<<<<<<<<<<<
  *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
  *                 if Bordereq > 0:
  */
-        __pyx_t_18[0] = __pyx_v_i;
-        __pyx_t_18[1] = __pyx_v_j;
-        __pyx_t_18[2] = __pyx_v_z;
-        memcpy(&(__pyx_v_checking[0]), __pyx_t_18, sizeof(__pyx_v_checking[0]) * (3));
+        __pyx_t_16[0] = __pyx_v_i;
+        __pyx_t_16[1] = __pyx_v_j;
+        __pyx_t_16[2] = __pyx_v_z;
+        memcpy(&(__pyx_v_checking[0]), __pyx_t_16, sizeof(__pyx_v_checking[0]) * (3));
 
-        /* "GetIntersect.pyx":79
+        /* "GetIntersect.pyx":45
  *                 j = m * i + q
  *                 checking = [i, j, z]
  *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T             # <<<<<<<<<<<<<<
  *                 if Bordereq > 0:
  *                     break
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 79, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 45, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 79, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 45, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __pyx_t_4 = PyFloat_FromDouble((__pyx_v_checking[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 45, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_2 = PyFloat_FromDouble((__pyx_v_checking[1])); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 45, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_L_0); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 45, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_5 = NULL;
+        __pyx_t_8 = 0;
+        #if CYTHON_UNPACK_METHODS
+        if (unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_5)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_5);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+            __pyx_t_8 = 1;
+          }
+        }
+        #endif
+        {
+          PyObject *__pyx_callargs[4] = {__pyx_t_5, __pyx_t_4, __pyx_t_2, __pyx_t_6};
+          __pyx_t_7 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_8, 3+__pyx_t_8);
+          __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+          if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 45, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_7);
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        }
+        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_T); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 45, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_6 = PyNumber_Subtract(__pyx_t_7, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 45, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 45, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+        __pyx_v_Bordereq = __pyx_t_9;
+
+        /* "GetIntersect.pyx":46
+ *                 checking = [i, j, z]
+ *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
+ *                 if Bordereq > 0:             # <<<<<<<<<<<<<<
+ *                     break
+ *                 if Bordereq > minBorderDist:
+ */
+        __pyx_t_11 = (__pyx_v_Bordereq > 0.0);
+        if (__pyx_t_11) {
+
+          /* "GetIntersect.pyx":47
+ *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
+ *                 if Bordereq > 0:
+ *                     break             # <<<<<<<<<<<<<<
+ *                 if Bordereq > minBorderDist:
+ *                     minBorderDist = Bordereq
+ */
+          goto __pyx_L10_break;
+
+          /* "GetIntersect.pyx":46
+ *                 checking = [i, j, z]
+ *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
+ *                 if Bordereq > 0:             # <<<<<<<<<<<<<<
+ *                     break
+ *                 if Bordereq > minBorderDist:
+ */
+        }
+
+        /* "GetIntersect.pyx":48
+ *                 if Bordereq > 0:
+ *                     break
+ *                 if Bordereq > minBorderDist:             # <<<<<<<<<<<<<<
+ *                     minBorderDist = Bordereq
+ *                     nearest_point[0] = i
+ */
+        __pyx_t_11 = (__pyx_v_Bordereq > __pyx_v_minBorderDist);
+        if (__pyx_t_11) {
+
+          /* "GetIntersect.pyx":49
+ *                     break
+ *                 if Bordereq > minBorderDist:
+ *                     minBorderDist = Bordereq             # <<<<<<<<<<<<<<
+ *                     nearest_point[0] = i
+ *                     nearest_point[1] = j
+ */
+          __pyx_v_minBorderDist = __pyx_v_Bordereq;
+
+          /* "GetIntersect.pyx":50
+ *                 if Bordereq > minBorderDist:
+ *                     minBorderDist = Bordereq
+ *                     nearest_point[0] = i             # <<<<<<<<<<<<<<
+ *                     nearest_point[1] = j
+ *                 i += dx
+ */
+          (__pyx_v_nearest_point[0]) = __pyx_v_i;
+
+          /* "GetIntersect.pyx":51
+ *                     minBorderDist = Bordereq
+ *                     nearest_point[0] = i
+ *                     nearest_point[1] = j             # <<<<<<<<<<<<<<
+ *                 i += dx
+ *             nearest_point[2] = z + (
+ */
+          (__pyx_v_nearest_point[1]) = __pyx_v_j;
+
+          /* "GetIntersect.pyx":48
+ *                 if Bordereq > 0:
+ *                     break
+ *                 if Bordereq > minBorderDist:             # <<<<<<<<<<<<<<
+ *                     minBorderDist = Bordereq
+ *                     nearest_point[0] = i
+ */
+        }
+
+        /* "GetIntersect.pyx":52
+ *                     nearest_point[0] = i
+ *                     nearest_point[1] = j
+ *                 i += dx             # <<<<<<<<<<<<<<
+ *             nearest_point[2] = z + (
+ *                 (nearest_point[0] - oldcoord[0]) / (np.tan(phi) * np.cos(theta))
+ */
+        __pyx_v_i = (__pyx_v_i + __pyx_v_dx);
+      }
+      __pyx_L10_break:;
+
+      /* "GetIntersect.pyx":53
+ *                     nearest_point[1] = j
+ *                 i += dx
+ *             nearest_point[2] = z + (             # <<<<<<<<<<<<<<
+ *                 (nearest_point[0] - oldcoord[0]) / (np.tan(phi) * np.cos(theta))
+ *             )
+ */
+      __pyx_t_6 = PyFloat_FromDouble(__pyx_v_z); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 53, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+
+      /* "GetIntersect.pyx":54
+ *                 i += dx
+ *             nearest_point[2] = z + (
+ *                 (nearest_point[0] - oldcoord[0]) / (np.tan(phi) * np.cos(theta))             # <<<<<<<<<<<<<<
+ *             )
+ *     else:
+ */
+      __pyx_t_3 = PyFloat_FromDouble(((__pyx_v_nearest_point[0]) - __pyx_v_oldcoord.f0)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 54, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 54, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_tan); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 54, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_phi); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 54, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_5 = NULL;
+      __pyx_t_8 = 0;
+      #if CYTHON_UNPACK_METHODS
+      if (unlikely(PyMethod_Check(__pyx_t_4))) {
+        __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+        if (likely(__pyx_t_5)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+          __Pyx_INCREF(__pyx_t_5);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_4, function);
+          __pyx_t_8 = 1;
+        }
+      }
+      #endif
+      {
+        PyObject *__pyx_callargs[2] = {__pyx_t_5, __pyx_t_2};
+        __pyx_t_7 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
+        __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 54, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = PyFloat_FromDouble((__pyx_v_checking[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 79, __pyx_L1_error)
+      }
+      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 54, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_cos); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 54, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_theta); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 54, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_15 = NULL;
+      __pyx_t_8 = 0;
+      #if CYTHON_UNPACK_METHODS
+      if (unlikely(PyMethod_Check(__pyx_t_5))) {
+        __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_5);
+        if (likely(__pyx_t_15)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+          __Pyx_INCREF(__pyx_t_15);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_5, function);
+          __pyx_t_8 = 1;
+        }
+      }
+      #endif
+      {
+        PyObject *__pyx_callargs[2] = {__pyx_t_15, __pyx_t_2};
+        __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
+        __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 54, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_6 = PyFloat_FromDouble((__pyx_v_checking[1])); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 79, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      }
+      __pyx_t_5 = PyNumber_Multiply(__pyx_t_7, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 54, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 54, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+      /* "GetIntersect.pyx":53
+ *                     nearest_point[1] = j
+ *                 i += dx
+ *             nearest_point[2] = z + (             # <<<<<<<<<<<<<<
+ *                 (nearest_point[0] - oldcoord[0]) / (np.tan(phi) * np.cos(theta))
+ *             )
+ */
+      __pyx_t_5 = PyNumber_Add(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 53, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 53, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      (__pyx_v_nearest_point[2]) = __pyx_t_9;
+    }
+    __pyx_L4:;
+
+    /* "GetIntersect.pyx":22
+ *     cdef double i = 0
+ *     cdef double j = 0
+ *     if dx != 0.0:             # <<<<<<<<<<<<<<
+ *         i = x + dx
+ *         m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
+ */
+    goto __pyx_L3;
+  }
+
+  /* "GetIntersect.pyx":57
+ *             )
+ *     else:
+ *         j = y + dy             # <<<<<<<<<<<<<<
+ *         if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in
+ *             j = y + dy
+ */
+  /*else*/ {
+    __pyx_v_j = (__pyx_v_y + __pyx_v_dy);
+
+    /* "GetIntersect.pyx":58
+ *     else:
+ *         j = y + dy
+ *         if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in             # <<<<<<<<<<<<<<
+ *             j = y + dy
+ *             while j <= coordinates[1]:
+ */
+    __pyx_t_11 = (__pyx_v_oldcoord.f1 <= __pyx_v_coordinates.f1);
+    if (__pyx_t_11) {
+
+      /* "GetIntersect.pyx":59
+ *         j = y + dy
+ *         if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in
+ *             j = y + dy             # <<<<<<<<<<<<<<
+ *             while j <= coordinates[1]:
+ *                 checking = [x, j, z]
+ */
+      __pyx_v_j = (__pyx_v_y + __pyx_v_dy);
+
+      /* "GetIntersect.pyx":60
+ *         if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in
+ *             j = y + dy
+ *             while j <= coordinates[1]:             # <<<<<<<<<<<<<<
+ *                 checking = [x, j, z]
+ *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
+ */
+      while (1) {
+        __pyx_t_11 = (__pyx_v_j <= __pyx_v_coordinates.f1);
+        if (!__pyx_t_11) break;
+
+        /* "GetIntersect.pyx":61
+ *             j = y + dy
+ *             while j <= coordinates[1]:
+ *                 checking = [x, j, z]             # <<<<<<<<<<<<<<
+ *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
+ *                 if Bordereq > 0:
+ */
+        __pyx_t_17[0] = __pyx_v_x;
+        __pyx_t_17[1] = __pyx_v_j;
+        __pyx_t_17[2] = __pyx_v_z;
+        memcpy(&(__pyx_v_checking[0]), __pyx_t_17, sizeof(__pyx_v_checking[0]) * (3));
+
+        /* "GetIntersect.pyx":62
+ *             while j <= coordinates[1]:
+ *                 checking = [x, j, z]
+ *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T             # <<<<<<<<<<<<<<
+ *                 if Bordereq > 0:
+ *                     break
+ */
+        __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 62, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 62, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_5 = PyFloat_FromDouble(__pyx_v_L_0); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 79, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __pyx_t_4 = PyFloat_FromDouble((__pyx_v_checking[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 62, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_3 = PyFloat_FromDouble((__pyx_v_checking[1])); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 62, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_7 = PyFloat_FromDouble(__pyx_v_L_0); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 62, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_2 = NULL;
+        __pyx_t_8 = 0;
+        #if CYTHON_UNPACK_METHODS
+        if (unlikely(PyMethod_Check(__pyx_t_6))) {
+          __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_6);
+          if (likely(__pyx_t_2)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+            __Pyx_INCREF(__pyx_t_2);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_6, function);
+            __pyx_t_8 = 1;
+          }
+        }
+        #endif
+        {
+          PyObject *__pyx_callargs[4] = {__pyx_t_2, __pyx_t_4, __pyx_t_3, __pyx_t_7};
+          __pyx_t_5 = __Pyx_PyObject_FastCall(__pyx_t_6, __pyx_callargs+1-__pyx_t_8, 3+__pyx_t_8);
+          __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+          if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 62, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+        }
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_T); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 62, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_7 = PyNumber_Subtract(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 62, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+        __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 62, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        __pyx_v_Bordereq = __pyx_t_9;
+
+        /* "GetIntersect.pyx":63
+ *                 checking = [x, j, z]
+ *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
+ *                 if Bordereq > 0:             # <<<<<<<<<<<<<<
+ *                     break
+ *                 if Bordereq > minBorderDist:
+ */
+        __pyx_t_11 = (__pyx_v_Bordereq > 0.0);
+        if (__pyx_t_11) {
+
+          /* "GetIntersect.pyx":64
+ *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
+ *                 if Bordereq > 0:
+ *                     break             # <<<<<<<<<<<<<<
+ *                 if Bordereq > minBorderDist:
+ *                     minBorderDist = Bordereq
+ */
+          goto __pyx_L15_break;
+
+          /* "GetIntersect.pyx":63
+ *                 checking = [x, j, z]
+ *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
+ *                 if Bordereq > 0:             # <<<<<<<<<<<<<<
+ *                     break
+ *                 if Bordereq > minBorderDist:
+ */
+        }
+
+        /* "GetIntersect.pyx":65
+ *                 if Bordereq > 0:
+ *                     break
+ *                 if Bordereq > minBorderDist:             # <<<<<<<<<<<<<<
+ *                     minBorderDist = Bordereq
+ *                     nearest_point[0] = x
+ */
+        __pyx_t_11 = (__pyx_v_Bordereq > __pyx_v_minBorderDist);
+        if (__pyx_t_11) {
+
+          /* "GetIntersect.pyx":66
+ *                     break
+ *                 if Bordereq > minBorderDist:
+ *                     minBorderDist = Bordereq             # <<<<<<<<<<<<<<
+ *                     nearest_point[0] = x
+ *                     nearest_point[1] = j
+ */
+          __pyx_v_minBorderDist = __pyx_v_Bordereq;
+
+          /* "GetIntersect.pyx":67
+ *                 if Bordereq > minBorderDist:
+ *                     minBorderDist = Bordereq
+ *                     nearest_point[0] = x             # <<<<<<<<<<<<<<
+ *                     nearest_point[1] = j
+ *                 j += dy
+ */
+          (__pyx_v_nearest_point[0]) = __pyx_v_x;
+
+          /* "GetIntersect.pyx":68
+ *                     minBorderDist = Bordereq
+ *                     nearest_point[0] = x
+ *                     nearest_point[1] = j             # <<<<<<<<<<<<<<
+ *                 j += dy
+ *             nearest_point[2] = z + (
+ */
+          (__pyx_v_nearest_point[1]) = __pyx_v_j;
+
+          /* "GetIntersect.pyx":65
+ *                 if Bordereq > 0:
+ *                     break
+ *                 if Bordereq > minBorderDist:             # <<<<<<<<<<<<<<
+ *                     minBorderDist = Bordereq
+ *                     nearest_point[0] = x
+ */
+        }
+
+        /* "GetIntersect.pyx":69
+ *                     nearest_point[0] = x
+ *                     nearest_point[1] = j
+ *                 j += dy             # <<<<<<<<<<<<<<
+ *             nearest_point[2] = z + (
+ *                 (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
+ */
+        __pyx_v_j = (__pyx_v_j + __pyx_v_dy);
+      }
+      __pyx_L15_break:;
+
+      /* "GetIntersect.pyx":70
+ *                     nearest_point[1] = j
+ *                 j += dy
+ *             nearest_point[2] = z + (             # <<<<<<<<<<<<<<
+ *                 (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
+ *             )
+ */
+      __pyx_t_7 = PyFloat_FromDouble(__pyx_v_z); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 70, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+
+      /* "GetIntersect.pyx":71
+ *                 j += dy
+ *             nearest_point[2] = z + (
+ *                 (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))             # <<<<<<<<<<<<<<
+ *             )
+ *         else:
+ */
+      __pyx_t_6 = PyFloat_FromDouble(((__pyx_v_nearest_point[1]) - __pyx_v_oldcoord.f1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 71, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 71, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_tan); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 71, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_phi); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 71, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_2 = NULL;
+      __pyx_t_8 = 0;
+      #if CYTHON_UNPACK_METHODS
+      if (unlikely(PyMethod_Check(__pyx_t_4))) {
+        __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_4);
+        if (likely(__pyx_t_2)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+          __Pyx_INCREF(__pyx_t_2);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_4, function);
+          __pyx_t_8 = 1;
+        }
+      }
+      #endif
+      {
+        PyObject *__pyx_callargs[2] = {__pyx_t_2, __pyx_t_3};
+        __pyx_t_5 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
+        __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 71, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      }
+      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 71, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_sin); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 71, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_theta); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 71, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_15 = NULL;
+      __pyx_t_8 = 0;
+      #if CYTHON_UNPACK_METHODS
+      if (unlikely(PyMethod_Check(__pyx_t_2))) {
+        __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_2);
+        if (likely(__pyx_t_15)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+          __Pyx_INCREF(__pyx_t_15);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_2, function);
+          __pyx_t_8 = 1;
+        }
+      }
+      #endif
+      {
+        PyObject *__pyx_callargs[2] = {__pyx_t_15, __pyx_t_3};
+        __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
+        __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 71, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      }
+      __pyx_t_2 = PyNumber_Multiply(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 71, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 71, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+      /* "GetIntersect.pyx":70
+ *                     nearest_point[1] = j
+ *                 j += dy
+ *             nearest_point[2] = z + (             # <<<<<<<<<<<<<<
+ *                 (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
+ *             )
+ */
+      __pyx_t_2 = PyNumber_Add(__pyx_t_7, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 70, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 70, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      (__pyx_v_nearest_point[2]) = __pyx_t_9;
+
+      /* "GetIntersect.pyx":58
+ *     else:
+ *         j = y + dy
+ *         if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in             # <<<<<<<<<<<<<<
+ *             j = y + dy
+ *             while j <= coordinates[1]:
+ */
+      goto __pyx_L13;
+    }
+
+    /* "GetIntersect.pyx":74
+ *             )
+ *         else:
+ *             j = y + dy             # <<<<<<<<<<<<<<
+ *             while j >= coordinates[1]:
+ *                 checking = [x, j, z]
+ */
+    /*else*/ {
+      __pyx_v_j = (__pyx_v_y + __pyx_v_dy);
+
+      /* "GetIntersect.pyx":75
+ *         else:
+ *             j = y + dy
+ *             while j >= coordinates[1]:             # <<<<<<<<<<<<<<
+ *                 checking = [x, j, z]
+ *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
+ */
+      while (1) {
+        __pyx_t_11 = (__pyx_v_j >= __pyx_v_coordinates.f1);
+        if (!__pyx_t_11) break;
+
+        /* "GetIntersect.pyx":76
+ *             j = y + dy
+ *             while j >= coordinates[1]:
+ *                 checking = [x, j, z]             # <<<<<<<<<<<<<<
+ *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
+ *                 if Bordereq > 0:
+ */
+        __pyx_t_18[0] = __pyx_v_x;
+        __pyx_t_18[1] = __pyx_v_j;
+        __pyx_t_18[2] = __pyx_v_z;
+        memcpy(&(__pyx_v_checking[0]), __pyx_t_18, sizeof(__pyx_v_checking[0]) * (3));
+
+        /* "GetIntersect.pyx":77
+ *             while j >= coordinates[1]:
+ *                 checking = [x, j, z]
+ *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T             # <<<<<<<<<<<<<<
+ *                 if Bordereq > 0:
+ *                     break
+ */
+        __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 77, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 77, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __pyx_t_4 = PyFloat_FromDouble((__pyx_v_checking[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 77, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_6 = PyFloat_FromDouble((__pyx_v_checking[1])); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 77, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_5 = PyFloat_FromDouble(__pyx_v_L_0); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 77, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __pyx_t_3 = NULL;
         __pyx_t_8 = 0;
@@ -5850,22 +5833,22 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 79, __pyx_L1_error)
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 77, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         }
-        __pyx_t_7 = PyFloat_FromDouble(__pyx_v_T); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 79, __pyx_L1_error)
+        __pyx_t_7 = PyFloat_FromDouble(__pyx_v_T); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 77, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_5 = PyNumber_Subtract(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 79, __pyx_L1_error)
+        __pyx_t_5 = PyNumber_Subtract(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 77, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 79, __pyx_L1_error)
+        __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 77, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __pyx_v_Bordereq = __pyx_t_9;
 
-        /* "GetIntersect.pyx":80
- *                 checking = [i, j, z]
+        /* "GetIntersect.pyx":78
+ *                 checking = [x, j, z]
  *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
  *                 if Bordereq > 0:             # <<<<<<<<<<<<<<
  *                     break
@@ -5874,17 +5857,17 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
         __pyx_t_11 = (__pyx_v_Bordereq > 0.0);
         if (__pyx_t_11) {
 
-          /* "GetIntersect.pyx":81
+          /* "GetIntersect.pyx":79
  *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
  *                 if Bordereq > 0:
  *                     break             # <<<<<<<<<<<<<<
  *                 if Bordereq > minBorderDist:
  *                     minBorderDist = Bordereq
  */
-          goto __pyx_L21_break;
+          goto __pyx_L19_break;
 
-          /* "GetIntersect.pyx":80
- *                 checking = [i, j, z]
+          /* "GetIntersect.pyx":78
+ *                 checking = [x, j, z]
  *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
  *                 if Bordereq > 0:             # <<<<<<<<<<<<<<
  *                     break
@@ -5892,88 +5875,88 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
  */
         }
 
-        /* "GetIntersect.pyx":82
+        /* "GetIntersect.pyx":80
  *                 if Bordereq > 0:
  *                     break
  *                 if Bordereq > minBorderDist:             # <<<<<<<<<<<<<<
  *                     minBorderDist = Bordereq
- *                     nearest_point[0] = i
+ *                     nearest_point[0] = x
  */
         __pyx_t_11 = (__pyx_v_Bordereq > __pyx_v_minBorderDist);
         if (__pyx_t_11) {
 
-          /* "GetIntersect.pyx":83
+          /* "GetIntersect.pyx":81
  *                     break
  *                 if Bordereq > minBorderDist:
  *                     minBorderDist = Bordereq             # <<<<<<<<<<<<<<
- *                     nearest_point[0] = i
+ *                     nearest_point[0] = x
  *                     nearest_point[1] = j
  */
           __pyx_v_minBorderDist = __pyx_v_Bordereq;
 
-          /* "GetIntersect.pyx":84
+          /* "GetIntersect.pyx":82
  *                 if Bordereq > minBorderDist:
  *                     minBorderDist = Bordereq
- *                     nearest_point[0] = i             # <<<<<<<<<<<<<<
+ *                     nearest_point[0] = x             # <<<<<<<<<<<<<<
  *                     nearest_point[1] = j
- *                 i += dx
+ *                 j += dy
  */
-          (__pyx_v_nearest_point[0]) = __pyx_v_i;
+          (__pyx_v_nearest_point[0]) = __pyx_v_x;
 
-          /* "GetIntersect.pyx":85
+          /* "GetIntersect.pyx":83
  *                     minBorderDist = Bordereq
- *                     nearest_point[0] = i
+ *                     nearest_point[0] = x
  *                     nearest_point[1] = j             # <<<<<<<<<<<<<<
- *                 i += dx
+ *                 j += dy
  *             nearest_point[2] = z + (
  */
           (__pyx_v_nearest_point[1]) = __pyx_v_j;
 
-          /* "GetIntersect.pyx":82
+          /* "GetIntersect.pyx":80
  *                 if Bordereq > 0:
  *                     break
  *                 if Bordereq > minBorderDist:             # <<<<<<<<<<<<<<
  *                     minBorderDist = Bordereq
- *                     nearest_point[0] = i
+ *                     nearest_point[0] = x
  */
         }
 
-        /* "GetIntersect.pyx":86
- *                     nearest_point[0] = i
+        /* "GetIntersect.pyx":84
+ *                     nearest_point[0] = x
  *                     nearest_point[1] = j
- *                 i += dx             # <<<<<<<<<<<<<<
+ *                 j += dy             # <<<<<<<<<<<<<<
  *             nearest_point[2] = z + (
- *                 (nearest_point[0] - oldcoord[0]) / (np.tan(phi) * np.cos(theta))
+ *                 (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
  */
-        __pyx_v_i = (__pyx_v_i + __pyx_v_dx);
+        __pyx_v_j = (__pyx_v_j + __pyx_v_dy);
       }
-      __pyx_L21_break:;
+      __pyx_L19_break:;
 
-      /* "GetIntersect.pyx":87
+      /* "GetIntersect.pyx":85
  *                     nearest_point[1] = j
- *                 i += dx
+ *                 j += dy
  *             nearest_point[2] = z + (             # <<<<<<<<<<<<<<
- *                 (nearest_point[0] - oldcoord[0]) / (np.tan(phi) * np.cos(theta))
+ *                 (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
  *             )
  */
-      __pyx_t_5 = PyFloat_FromDouble(__pyx_v_z); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 87, __pyx_L1_error)
+      __pyx_t_5 = PyFloat_FromDouble(__pyx_v_z); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 85, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
 
-      /* "GetIntersect.pyx":88
- *                 i += dx
+      /* "GetIntersect.pyx":86
+ *                 j += dy
  *             nearest_point[2] = z + (
- *                 (nearest_point[0] - oldcoord[0]) / (np.tan(phi) * np.cos(theta))             # <<<<<<<<<<<<<<
+ *                 (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))             # <<<<<<<<<<<<<<
  *             )
- *         else:
+ *     return nearest_point
  */
-      __pyx_t_7 = PyFloat_FromDouble(((__pyx_v_nearest_point[0]) - __pyx_v_oldcoord.f0)); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 88, __pyx_L1_error)
+      __pyx_t_7 = PyFloat_FromDouble(((__pyx_v_nearest_point[1]) - __pyx_v_oldcoord.f1)); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 86, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 88, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 86, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_tan); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 88, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_tan); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 86, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyFloat_FromDouble(__pyx_v_phi); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 88, __pyx_L1_error)
+      __pyx_t_6 = PyFloat_FromDouble(__pyx_v_phi); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 86, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __pyx_t_3 = NULL;
       __pyx_t_8 = 0;
@@ -5994,16 +5977,16 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
         __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 88, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 86, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       }
-      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 88, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 86, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_cos); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 88, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_sin); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 86, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyFloat_FromDouble(__pyx_v_theta); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 88, __pyx_L1_error)
+      __pyx_t_6 = PyFloat_FromDouble(__pyx_v_theta); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 86, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __pyx_t_15 = NULL;
       __pyx_t_8 = 0;
@@ -6024,610 +6007,48 @@ static PyObject *__pyx_pf_12GetIntersect_GetIntersect(CYTHON_UNUSED PyObject *__
         __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
         __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 88, __pyx_L1_error)
+        if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 86, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       }
-      __pyx_t_3 = PyNumber_Multiply(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 88, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Multiply(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 86, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 88, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 86, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "GetIntersect.pyx":87
+      /* "GetIntersect.pyx":85
  *                     nearest_point[1] = j
- *                 i += dx
+ *                 j += dy
  *             nearest_point[2] = z + (             # <<<<<<<<<<<<<<
- *                 (nearest_point[0] - oldcoord[0]) / (np.tan(phi) * np.cos(theta))
+ *                 (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
  *             )
  */
-      __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 87, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 85, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 87, __pyx_L1_error)
+      __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 85, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       (__pyx_v_nearest_point[2]) = __pyx_t_9;
-
-      /* "GetIntersect.pyx":73
- *     else:
- *         # in this case x_in >= x_fin, so the condition in the while loop is changed
- *         if dx != 0.0:             # <<<<<<<<<<<<<<
- *             m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
- *             q = coordinates[1] - m * coordinates[0]
- */
-      goto __pyx_L19;
     }
-
-    /* "GetIntersect.pyx":91
- *             )
- *         else:
- *             if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in             # <<<<<<<<<<<<<<
- *                 while j <= coordinates[1]:
- *                     checking = [x, j, z]
- */
-    /*else*/ {
-      __pyx_t_11 = (__pyx_v_oldcoord.f1 <= __pyx_v_coordinates.f1);
-      if (__pyx_t_11) {
-
-        /* "GetIntersect.pyx":92
- *         else:
- *             if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in
- *                 while j <= coordinates[1]:             # <<<<<<<<<<<<<<
- *                     checking = [x, j, z]
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- */
-        while (1) {
-          __pyx_t_11 = (__pyx_v_j <= __pyx_v_coordinates.f1);
-          if (!__pyx_t_11) break;
-
-          /* "GetIntersect.pyx":93
- *             if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in
- *                 while j <= coordinates[1]:
- *                     checking = [x, j, z]             # <<<<<<<<<<<<<<
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                     if Bordereq > 0:
- */
-          __pyx_t_19[0] = __pyx_v_x;
-          __pyx_t_19[1] = __pyx_v_j;
-          __pyx_t_19[2] = __pyx_v_z;
-          memcpy(&(__pyx_v_checking[0]), __pyx_t_19, sizeof(__pyx_v_checking[0]) * (3));
-
-          /* "GetIntersect.pyx":94
- *                 while j <= coordinates[1]:
- *                     checking = [x, j, z]
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T             # <<<<<<<<<<<<<<
- *                     if Bordereq > 0:
- *                         break
- */
-          __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 94, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 94, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_5);
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_4 = PyFloat_FromDouble((__pyx_v_checking[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 94, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_7 = PyFloat_FromDouble((__pyx_v_checking[1])); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 94, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_2 = PyFloat_FromDouble(__pyx_v_L_0); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 94, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_6 = NULL;
-          __pyx_t_8 = 0;
-          #if CYTHON_UNPACK_METHODS
-          if (unlikely(PyMethod_Check(__pyx_t_5))) {
-            __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
-            if (likely(__pyx_t_6)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-              __Pyx_INCREF(__pyx_t_6);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_5, function);
-              __pyx_t_8 = 1;
-            }
-          }
-          #endif
-          {
-            PyObject *__pyx_callargs[4] = {__pyx_t_6, __pyx_t_4, __pyx_t_7, __pyx_t_2};
-            __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_8, 3+__pyx_t_8);
-            __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 94, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_3);
-            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          }
-          __pyx_t_5 = PyFloat_FromDouble(__pyx_v_T); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 94, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_2 = PyNumber_Subtract(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 94, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 94, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_v_Bordereq = __pyx_t_9;
-
-          /* "GetIntersect.pyx":95
- *                     checking = [x, j, z]
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                     if Bordereq > 0:             # <<<<<<<<<<<<<<
- *                         break
- *                     if Bordereq > minBorderDist:
- */
-          __pyx_t_11 = (__pyx_v_Bordereq > 0.0);
-          if (__pyx_t_11) {
-
-            /* "GetIntersect.pyx":96
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                     if Bordereq > 0:
- *                         break             # <<<<<<<<<<<<<<
- *                     if Bordereq > minBorderDist:
- *                         minBorderDist = Bordereq
- */
-            goto __pyx_L26_break;
-
-            /* "GetIntersect.pyx":95
- *                     checking = [x, j, z]
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                     if Bordereq > 0:             # <<<<<<<<<<<<<<
- *                         break
- *                     if Bordereq > minBorderDist:
- */
-          }
-
-          /* "GetIntersect.pyx":97
- *                     if Bordereq > 0:
- *                         break
- *                     if Bordereq > minBorderDist:             # <<<<<<<<<<<<<<
- *                         minBorderDist = Bordereq
- *                         nearest_point[0] = x
- */
-          __pyx_t_11 = (__pyx_v_Bordereq > __pyx_v_minBorderDist);
-          if (__pyx_t_11) {
-
-            /* "GetIntersect.pyx":98
- *                         break
- *                     if Bordereq > minBorderDist:
- *                         minBorderDist = Bordereq             # <<<<<<<<<<<<<<
- *                         nearest_point[0] = x
- *                         nearest_point[1] = j
- */
-            __pyx_v_minBorderDist = __pyx_v_Bordereq;
-
-            /* "GetIntersect.pyx":99
- *                     if Bordereq > minBorderDist:
- *                         minBorderDist = Bordereq
- *                         nearest_point[0] = x             # <<<<<<<<<<<<<<
- *                         nearest_point[1] = j
- *                     j += dy
- */
-            (__pyx_v_nearest_point[0]) = __pyx_v_x;
-
-            /* "GetIntersect.pyx":100
- *                         minBorderDist = Bordereq
- *                         nearest_point[0] = x
- *                         nearest_point[1] = j             # <<<<<<<<<<<<<<
- *                     j += dy
- *                 nearest_point[2] = z + (
- */
-            (__pyx_v_nearest_point[1]) = __pyx_v_j;
-
-            /* "GetIntersect.pyx":97
- *                     if Bordereq > 0:
- *                         break
- *                     if Bordereq > minBorderDist:             # <<<<<<<<<<<<<<
- *                         minBorderDist = Bordereq
- *                         nearest_point[0] = x
- */
-          }
-
-          /* "GetIntersect.pyx":101
- *                         nearest_point[0] = x
- *                         nearest_point[1] = j
- *                     j += dy             # <<<<<<<<<<<<<<
- *                 nearest_point[2] = z + (
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
- */
-          __pyx_v_j = (__pyx_v_j + __pyx_v_dy);
-        }
-        __pyx_L26_break:;
-
-        /* "GetIntersect.pyx":102
- *                         nearest_point[1] = j
- *                     j += dy
- *                 nearest_point[2] = z + (             # <<<<<<<<<<<<<<
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
- *                 )
- */
-        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_z); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 102, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-
-        /* "GetIntersect.pyx":103
- *                     j += dy
- *                 nearest_point[2] = z + (
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))             # <<<<<<<<<<<<<<
- *                 )
- *             else:
- */
-        __pyx_t_5 = PyFloat_FromDouble(((__pyx_v_nearest_point[1]) - __pyx_v_oldcoord.f1)); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 103, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 103, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_tan); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 103, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_7 = PyFloat_FromDouble(__pyx_v_phi); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 103, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_6 = NULL;
-        __pyx_t_8 = 0;
-        #if CYTHON_UNPACK_METHODS
-        if (unlikely(PyMethod_Check(__pyx_t_4))) {
-          __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
-          if (likely(__pyx_t_6)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-            __Pyx_INCREF(__pyx_t_6);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_4, function);
-            __pyx_t_8 = 1;
-          }
-        }
-        #endif
-        {
-          PyObject *__pyx_callargs[2] = {__pyx_t_6, __pyx_t_7};
-          __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
-          __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 103, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        }
-        __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 103, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_sin); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 103, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_7 = PyFloat_FromDouble(__pyx_v_theta); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 103, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_15 = NULL;
-        __pyx_t_8 = 0;
-        #if CYTHON_UNPACK_METHODS
-        if (unlikely(PyMethod_Check(__pyx_t_6))) {
-          __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_6);
-          if (likely(__pyx_t_15)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-            __Pyx_INCREF(__pyx_t_15);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_6, function);
-            __pyx_t_8 = 1;
-          }
-        }
-        #endif
-        {
-          PyObject *__pyx_callargs[2] = {__pyx_t_15, __pyx_t_7};
-          __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_6, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
-          __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 103, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        }
-        __pyx_t_6 = PyNumber_Multiply(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 103, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 103, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-
-        /* "GetIntersect.pyx":102
- *                         nearest_point[1] = j
- *                     j += dy
- *                 nearest_point[2] = z + (             # <<<<<<<<<<<<<<
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
- *                 )
- */
-        __pyx_t_6 = PyNumber_Add(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 102, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 102, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        (__pyx_v_nearest_point[2]) = __pyx_t_9;
-
-        /* "GetIntersect.pyx":91
- *             )
- *         else:
- *             if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in             # <<<<<<<<<<<<<<
- *                 while j <= coordinates[1]:
- *                     checking = [x, j, z]
- */
-        goto __pyx_L24;
-      }
-
-      /* "GetIntersect.pyx":106
- *                 )
- *             else:
- *                 while j >= coordinates[1]:             # <<<<<<<<<<<<<<
- *                     checking = [x, j, z]
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- */
-      /*else*/ {
-        while (1) {
-          __pyx_t_11 = (__pyx_v_j >= __pyx_v_coordinates.f1);
-          if (!__pyx_t_11) break;
-
-          /* "GetIntersect.pyx":107
- *             else:
- *                 while j >= coordinates[1]:
- *                     checking = [x, j, z]             # <<<<<<<<<<<<<<
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                     if Bordereq > 0:
- */
-          __pyx_t_20[0] = __pyx_v_x;
-          __pyx_t_20[1] = __pyx_v_j;
-          __pyx_t_20[2] = __pyx_v_z;
-          memcpy(&(__pyx_v_checking[0]), __pyx_t_20, sizeof(__pyx_v_checking[0]) * (3));
-
-          /* "GetIntersect.pyx":108
- *                 while j >= coordinates[1]:
- *                     checking = [x, j, z]
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T             # <<<<<<<<<<<<<<
- *                     if Bordereq > 0:
- *                         break
- */
-          __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 108, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 108, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_4 = PyFloat_FromDouble((__pyx_v_checking[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 108, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_5 = PyFloat_FromDouble((__pyx_v_checking[1])); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 108, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_3 = PyFloat_FromDouble(__pyx_v_L_0); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 108, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_7 = NULL;
-          __pyx_t_8 = 0;
-          #if CYTHON_UNPACK_METHODS
-          if (unlikely(PyMethod_Check(__pyx_t_2))) {
-            __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_2);
-            if (likely(__pyx_t_7)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-              __Pyx_INCREF(__pyx_t_7);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_2, function);
-              __pyx_t_8 = 1;
-            }
-          }
-          #endif
-          {
-            PyObject *__pyx_callargs[4] = {__pyx_t_7, __pyx_t_4, __pyx_t_5, __pyx_t_3};
-            __pyx_t_6 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_8, 3+__pyx_t_8);
-            __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-            if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 108, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_6);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          }
-          __pyx_t_2 = PyFloat_FromDouble(__pyx_v_T); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 108, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_3 = PyNumber_Subtract(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 108, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 108, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_v_Bordereq = __pyx_t_9;
-
-          /* "GetIntersect.pyx":109
- *                     checking = [x, j, z]
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                     if Bordereq > 0:             # <<<<<<<<<<<<<<
- *                         break
- *                     if Bordereq > minBorderDist:
- */
-          __pyx_t_11 = (__pyx_v_Bordereq > 0.0);
-          if (__pyx_t_11) {
-
-            /* "GetIntersect.pyx":110
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                     if Bordereq > 0:
- *                         break             # <<<<<<<<<<<<<<
- *                     if Bordereq > minBorderDist:
- *                         minBorderDist = Bordereq
- */
-            goto __pyx_L30_break;
-
-            /* "GetIntersect.pyx":109
- *                     checking = [x, j, z]
- *                     Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                     if Bordereq > 0:             # <<<<<<<<<<<<<<
- *                         break
- *                     if Bordereq > minBorderDist:
- */
-          }
-
-          /* "GetIntersect.pyx":111
- *                     if Bordereq > 0:
- *                         break
- *                     if Bordereq > minBorderDist:             # <<<<<<<<<<<<<<
- *                         minBorderDist = Bordereq
- *                         nearest_point[0] = x
- */
-          __pyx_t_11 = (__pyx_v_Bordereq > __pyx_v_minBorderDist);
-          if (__pyx_t_11) {
-
-            /* "GetIntersect.pyx":112
- *                         break
- *                     if Bordereq > minBorderDist:
- *                         minBorderDist = Bordereq             # <<<<<<<<<<<<<<
- *                         nearest_point[0] = x
- *                         nearest_point[1] = j
- */
-            __pyx_v_minBorderDist = __pyx_v_Bordereq;
-
-            /* "GetIntersect.pyx":113
- *                     if Bordereq > minBorderDist:
- *                         minBorderDist = Bordereq
- *                         nearest_point[0] = x             # <<<<<<<<<<<<<<
- *                         nearest_point[1] = j
- *                     j += dy
- */
-            (__pyx_v_nearest_point[0]) = __pyx_v_x;
-
-            /* "GetIntersect.pyx":114
- *                         minBorderDist = Bordereq
- *                         nearest_point[0] = x
- *                         nearest_point[1] = j             # <<<<<<<<<<<<<<
- *                     j += dy
- *                 nearest_point[2] = z + (
- */
-            (__pyx_v_nearest_point[1]) = __pyx_v_j;
-
-            /* "GetIntersect.pyx":111
- *                     if Bordereq > 0:
- *                         break
- *                     if Bordereq > minBorderDist:             # <<<<<<<<<<<<<<
- *                         minBorderDist = Bordereq
- *                         nearest_point[0] = x
- */
-          }
-
-          /* "GetIntersect.pyx":115
- *                         nearest_point[0] = x
- *                         nearest_point[1] = j
- *                     j += dy             # <<<<<<<<<<<<<<
- *                 nearest_point[2] = z + (
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
- */
-          __pyx_v_j = (__pyx_v_j + __pyx_v_dy);
-        }
-        __pyx_L30_break:;
-
-        /* "GetIntersect.pyx":116
- *                         nearest_point[1] = j
- *                     j += dy
- *                 nearest_point[2] = z + (             # <<<<<<<<<<<<<<
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
- *                 )
- */
-        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_z); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 116, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-
-        /* "GetIntersect.pyx":117
- *                     j += dy
- *                 nearest_point[2] = z + (
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))             # <<<<<<<<<<<<<<
- *                 )
- *     return nearest_point
- */
-        __pyx_t_2 = PyFloat_FromDouble(((__pyx_v_nearest_point[1]) - __pyx_v_oldcoord.f1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 117, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 117, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_tan); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 117, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = PyFloat_FromDouble(__pyx_v_phi); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 117, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_7 = NULL;
-        __pyx_t_8 = 0;
-        #if CYTHON_UNPACK_METHODS
-        if (unlikely(PyMethod_Check(__pyx_t_4))) {
-          __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
-          if (likely(__pyx_t_7)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-            __Pyx_INCREF(__pyx_t_7);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_4, function);
-            __pyx_t_8 = 1;
-          }
-        }
-        #endif
-        {
-          PyObject *__pyx_callargs[2] = {__pyx_t_7, __pyx_t_5};
-          __pyx_t_6 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
-          __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 117, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_6);
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        }
-        __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 117, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_sin); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 117, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = PyFloat_FromDouble(__pyx_v_theta); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 117, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_15 = NULL;
-        __pyx_t_8 = 0;
-        #if CYTHON_UNPACK_METHODS
-        if (unlikely(PyMethod_Check(__pyx_t_7))) {
-          __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_7);
-          if (likely(__pyx_t_15)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-            __Pyx_INCREF(__pyx_t_15);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_7, function);
-            __pyx_t_8 = 1;
-          }
-        }
-        #endif
-        {
-          PyObject *__pyx_callargs[2] = {__pyx_t_15, __pyx_t_5};
-          __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_7, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
-          __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 117, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        }
-        __pyx_t_7 = PyNumber_Multiply(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 117, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 117, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-
-        /* "GetIntersect.pyx":116
- *                         nearest_point[1] = j
- *                     j += dy
- *                 nearest_point[2] = z + (             # <<<<<<<<<<<<<<
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
- *                 )
- */
-        __pyx_t_7 = PyNumber_Add(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 116, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 116, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        (__pyx_v_nearest_point[2]) = __pyx_t_9;
-      }
-      __pyx_L24:;
-    }
-    __pyx_L19:;
+    __pyx_L13:;
   }
   __pyx_L3:;
 
-  /* "GetIntersect.pyx":119
- *                     (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
- *                 )
+  /* "GetIntersect.pyx":88
+ *                 (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
+ *             )
  *     return nearest_point             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_7 = __Pyx_carray_to_py_double(__pyx_v_nearest_point, 3); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 119, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_r = __pyx_t_7;
-  __pyx_t_7 = 0;
+  __pyx_t_3 = __Pyx_carray_to_py_double(__pyx_v_nearest_point, 3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 88, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_r = __pyx_t_3;
+  __pyx_t_3 = 0;
   goto __pyx_L0;
 
   /* "GetIntersect.pyx":6

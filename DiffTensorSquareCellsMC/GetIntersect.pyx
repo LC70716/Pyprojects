@@ -17,14 +17,13 @@ def GetIntersect(tuple[np.float64_t,np.float64_t,np.float64_t] coordinates, tupl
     cdef double dy = (coordinates[1] - oldcoord[1]) / 50.0
     cdef double m = 0.0
     cdef double q = 0.0
-    cdef double i = x + dx
-    cdef double j = y + dy
-    
-    if oldcoord[0] <= coordinates[1]:
-        # checks if x_fin >= x_in, basically the way in which the segment is travelled by the particle
-        if dx != 0.0:
-            m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
-            q = coordinates[1] - m * coordinates[0]
+    cdef double i = 0
+    cdef double j = 0
+    if dx != 0.0:
+        i = x + dx
+        m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
+        q = coordinates[1] - m * coordinates[0]
+        if oldcoord[0] <= coordinates[0]: 
             while i <= coordinates[0]:
                 j = m * i + q
                 checking = [i, j, z]
@@ -40,39 +39,6 @@ def GetIntersect(tuple[np.float64_t,np.float64_t,np.float64_t] coordinates, tupl
                 (nearest_point[0] - oldcoord[0]) / (np.tan(phi) * np.cos(theta))
             )
         else:
-            if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in
-                while j <= coordinates[1]:
-                    checking = [x, j, z]
-                    Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
-                    if Bordereq > 0:
-                        break
-                    if Bordereq > minBorderDist:
-                        minBorderDist = Bordereq
-                        nearest_point[0] = x
-                        nearest_point[1] = j
-                    j += dy
-                nearest_point[2] = z + (
-                    (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
-                )
-            if oldcoord[1] >= coordinates[1]:
-                while j >= coordinates[1]:
-                    checking = [x, j, z]
-                    Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
-                    if Bordereq > 0:
-                        break
-                    if Bordereq > minBorderDist:
-                        minBorderDist = Bordereq
-                        nearest_point[0] = x
-                        nearest_point[1] = j
-                    j += dy
-                nearest_point[2] = z + (
-                    (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
-                )
-    else:
-        # in this case x_in >= x_fin, so the condition in the while loop is changed
-        if dx != 0.0:
-            m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
-            q = coordinates[1] - m * coordinates[0]
             while i >= coordinates[0]:
                 j = m * i + q
                 checking = [i, j, z]
@@ -87,33 +53,36 @@ def GetIntersect(tuple[np.float64_t,np.float64_t,np.float64_t] coordinates, tupl
             nearest_point[2] = z + (
                 (nearest_point[0] - oldcoord[0]) / (np.tan(phi) * np.cos(theta))
             )
+    else:
+        j = y + dy
+        if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in
+            j = y + dy
+            while j <= coordinates[1]:
+                checking = [x, j, z]
+                Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
+                if Bordereq > 0:
+                    break
+                if Bordereq > minBorderDist:
+                    minBorderDist = Bordereq
+                    nearest_point[0] = x
+                    nearest_point[1] = j
+                j += dy
+            nearest_point[2] = z + (
+                (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
+            )
         else:
-            if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in
-                while j <= coordinates[1]:
-                    checking = [x, j, z]
-                    Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
-                    if Bordereq > 0:
-                        break
-                    if Bordereq > minBorderDist:
-                        minBorderDist = Bordereq
-                        nearest_point[0] = x
-                        nearest_point[1] = j
-                    j += dy
-                nearest_point[2] = z + (
-                    (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
-                )
-            else:
-                while j >= coordinates[1]:
-                    checking = [x, j, z]
-                    Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
-                    if Bordereq > 0:
-                        break
-                    if Bordereq > minBorderDist:
-                        minBorderDist = Bordereq
-                        nearest_point[0] = x
-                        nearest_point[1] = j
-                    j += dy
-                nearest_point[2] = z + (
-                    (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
-                )
+            j = y + dy
+            while j >= coordinates[1]:
+                checking = [x, j, z]
+                Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
+                if Bordereq > 0:
+                    break
+                if Bordereq > minBorderDist:
+                    minBorderDist = Bordereq
+                    nearest_point[0] = x
+                    nearest_point[1] = j
+                j += dy
+            nearest_point[2] = z + (
+                (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
+            )
     return nearest_point

@@ -10,15 +10,15 @@ import Fibril
 import GetIntersect
 import DetailedPath
 
-N_p = 400  # number of particles
+N_p = 80000  # number of particles
 N_t = 30000  # number of time steps
 dt = 5e-9  # s
 D_0 = 2.3e-3  ## mm^2/s
 dr = np.sqrt(6 * D_0 * dt)  # mm (order of 10^-6)
 L_0 = 1e-4  ##mm
-T = []  # needs to be correlated to phi (volume fibrils/total volume) via computephi
-for i in range(0, 15):
-    T.append(i * 0.1)
+T = [0,0.2,0.5,0.9,1.3]  # needs to be correlated to phi (volume fibrils/total volume) via computephi
+#for i in range(0, 5):
+#    T.append(i * 0.3)
 T.append(193 / 120)
 Phis = []
 # eigenvalues are ordered on the value of the scal prod of eigenvector and k versor
@@ -62,8 +62,8 @@ def GetDTensorElementAddend(coordinateshistory, i, j):
 
 def SimulParticle(particle_index, N_t, N_p, dt, dr, L_0, T):
     np.random.seed()
-    #if particle_index % 20 == 0:
-    #    print(particle_index)
+    if particle_index % 8000 == 0:
+        print(particle_index)
     coordinates = [
         L_0*np.random.uniform(0, 1),
         L_0*np.random.uniform(0, 1),
@@ -148,9 +148,8 @@ if __name__ == "__main__":
         D_1.append(principal_eval)
         D_23.append(mean_sec_eval)
         print(t)
-        print(DT[0])
-        print(DT[1])
-        print(DT[2])
+        print(principal_eval)
+        print(mean_sec_eval)
 
     # compute phis
     for t in T:
@@ -158,4 +157,6 @@ if __name__ == "__main__":
     # plotting
     plt.scatter(Phis, D_1,marker='x')
     plt.scatter(Phis, D_23)
+    plt.show()
+    print(Phis)
 # %%
