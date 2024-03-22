@@ -33,14 +33,13 @@ D_sec = []  # mean between secondary and tertiary eigenvalues
 def Getdr(D, dt):
     return np.sqrt(6 * D * dt)
 
-def computePG_T(T,L_agg,L_0): #computes the value to add to T in order to have a PG ring around the fibrils
-    term1 = (16/21)*(np.pi^2)*L_0
-    term2 = -1*L_0*T
-    term3 = (120/193)*(L_agg^2)/L_0
-    term4 = (240/193)*L_agg*np.sqrt((16/21)*(np.pi^2)*(193/120 - T))
-    term5 = -1*(16/21)*np.pi^2
-    term6 = T
-    return term1 + term2 + term3 + term4 + term5 + term6
+def computePG_T(T,L_agg,L_0): # computes the value T' in order to have a PG ring around the fibrils and compute it with the Fibril function
+    term1 = 193/120
+    term2 = -1*(16/21)*(np.pi**2)*((193/120)-T)
+    term3 = -1*(L_agg**2)/(L_0**2)
+    term4 = -1*2*(L_agg/L_0)*np.sqrt((16/21)*(np.pi**2)*((193/120)-T))
+    return term1 + (21/16)*(1/(np.pi**2))*(term2+term3+term4)
+
 
 def ComputePhi(T, points):
     accepted = 0
@@ -94,7 +93,7 @@ def SimulParticle(particle_index, N_t, N_p, dt, L_0, T, PG_T):
     coordinateshistory = [copy.deepcopy(coordinates), []]
     previous_border_interaction = 0
     inside_PG = 0
-    if fibril >= (T - PG_T):
+    if fibril >= PG_T:
         inside_PG = 1
     for i in range(0, N_t):
         if previous_border_interaction == 0 and inside_PG == 0:
@@ -110,9 +109,9 @@ def SimulParticle(particle_index, N_t, N_p, dt, L_0, T, PG_T):
                 coordinates[2] = copy.copy(inter_coord_and_tsteps[2])
                 previous_border_interaction = 1
                 inside_PG = 1
-            elif fibril >= (T - PG_T):  #inside the PG ring
+            elif fibril >= PG_T:  #inside the PG ring
                 inter_coord_and_tsteps = GetIntersect.GetIntersect(
-                    coordinates, oldcoord, phi, theta, T - PG_T, L_0
+                    coordinates, oldcoord, phi, theta, PG_T , L_0
                 )
                 coordinates[0] = inter_coord_and_tsteps[0] + Getdr(
                     D_1, dt * (50 - inter_coord_and_tsteps[3]) / 50
@@ -137,9 +136,9 @@ def SimulParticle(particle_index, N_t, N_p, dt, L_0, T, PG_T):
                 coordinates[2] = copy.copy(inter_coord_and_tsteps[2])
                 previous_border_interaction = 1
                 inside_PG = 1
-            elif fibril <= (T - PG_T):  # if ends outside the PG ring
+            elif fibril <= PG_T:  # if ends outside the PG ring
                 inter_coord_and_tsteps = GetIntersect.GetIntersect(
-                        coordinates, oldcoord, phi, theta, T - PG_T, L_0
+                        coordinates, oldcoord, phi, theta, PG_T, L_0
                 )
                 coordinates[0] = inter_coord_and_tsteps[0] + Getdr(
                     D_0, dt * (50 - inter_coord_and_tsteps[3]) / 50
@@ -161,9 +160,9 @@ def SimulParticle(particle_index, N_t, N_p, dt, L_0, T, PG_T):
                 coordinates = copy.deepcopy(oldcoord)
             else:
                 fibril = Fibril.Fibril(coordinates[0], coordinates[1], L_0)
-                if fibril <= (T - PG_T):  # if ends outside the PG ring
+                if fibril <= PG_T:  # if ends outside the PG ring
                     inter_coord_and_tsteps = GetIntersect.GetIntersect(
-                        coordinates, oldcoord, phi, theta, T - PG_T, L_0
+                        coordinates, oldcoord, phi, theta, PG_T, L_0
                     )
                     coordinates[0] = copy.deepcopy(inter_coord_and_tsteps[0]) + Getdr(
                         D_0, dt * (50 - inter_coord_and_tsteps[3]) / 50
