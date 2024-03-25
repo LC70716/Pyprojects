@@ -2521,7 +2521,6 @@ static const char __pyx_k_numpy[] = "numpy";
 static const char __pyx_k_Fibril[] = "Fibril";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_return[] = "return";
-static const char __pyx_k_Bordereq[] = "Bordereq";
 static const char __pyx_k_checking[] = "checking";
 static const char __pyx_k_oldcoord[] = "oldcoord";
 static const char __pyx_k_ImportError[] = "ImportError";
@@ -2601,7 +2600,6 @@ typedef struct {
   #endif
   #if CYTHON_USE_MODULE_STATE
   #endif
-  PyObject *__pyx_n_s_Bordereq;
   PyObject *__pyx_n_s_DetailedPath;
   PyObject *__pyx_kp_s_DetailedPath_pyx;
   PyObject *__pyx_n_s_Fibril;
@@ -2637,6 +2635,7 @@ typedef struct {
   PyObject *__pyx_n_s_x;
   PyObject *__pyx_n_s_y;
   PyObject *__pyx_n_s_z;
+  PyObject *__pyx_int_0;
   PyObject *__pyx_tuple_;
   PyObject *__pyx_tuple__2;
   PyObject *__pyx_tuple__4;
@@ -2699,7 +2698,6 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_5numpy_flexible);
   Py_CLEAR(clear_module_state->__pyx_ptype_5numpy_character);
   Py_CLEAR(clear_module_state->__pyx_ptype_5numpy_ufunc);
-  Py_CLEAR(clear_module_state->__pyx_n_s_Bordereq);
   Py_CLEAR(clear_module_state->__pyx_n_s_DetailedPath);
   Py_CLEAR(clear_module_state->__pyx_kp_s_DetailedPath_pyx);
   Py_CLEAR(clear_module_state->__pyx_n_s_Fibril);
@@ -2735,6 +2733,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_x);
   Py_CLEAR(clear_module_state->__pyx_n_s_y);
   Py_CLEAR(clear_module_state->__pyx_n_s_z);
+  Py_CLEAR(clear_module_state->__pyx_int_0);
   Py_CLEAR(clear_module_state->__pyx_tuple_);
   Py_CLEAR(clear_module_state->__pyx_tuple__2);
   Py_CLEAR(clear_module_state->__pyx_tuple__4);
@@ -2775,7 +2774,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_ptype_5numpy_flexible);
   Py_VISIT(traverse_module_state->__pyx_ptype_5numpy_character);
   Py_VISIT(traverse_module_state->__pyx_ptype_5numpy_ufunc);
-  Py_VISIT(traverse_module_state->__pyx_n_s_Bordereq);
   Py_VISIT(traverse_module_state->__pyx_n_s_DetailedPath);
   Py_VISIT(traverse_module_state->__pyx_kp_s_DetailedPath_pyx);
   Py_VISIT(traverse_module_state->__pyx_n_s_Fibril);
@@ -2811,6 +2809,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_x);
   Py_VISIT(traverse_module_state->__pyx_n_s_y);
   Py_VISIT(traverse_module_state->__pyx_n_s_z);
+  Py_VISIT(traverse_module_state->__pyx_int_0);
   Py_VISIT(traverse_module_state->__pyx_tuple_);
   Py_VISIT(traverse_module_state->__pyx_tuple__2);
   Py_VISIT(traverse_module_state->__pyx_tuple__4);
@@ -2881,7 +2880,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #endif
 #if CYTHON_USE_MODULE_STATE
 #endif
-#define __pyx_n_s_Bordereq __pyx_mstate_global->__pyx_n_s_Bordereq
 #define __pyx_n_s_DetailedPath __pyx_mstate_global->__pyx_n_s_DetailedPath
 #define __pyx_kp_s_DetailedPath_pyx __pyx_mstate_global->__pyx_kp_s_DetailedPath_pyx
 #define __pyx_n_s_Fibril __pyx_mstate_global->__pyx_n_s_Fibril
@@ -2917,6 +2915,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_x __pyx_mstate_global->__pyx_n_s_x
 #define __pyx_n_s_y __pyx_mstate_global->__pyx_n_s_y
 #define __pyx_n_s_z __pyx_mstate_global->__pyx_n_s_z
+#define __pyx_int_0 __pyx_mstate_global->__pyx_int_0
 #define __pyx_tuple_ __pyx_mstate_global->__pyx_tuple_
 #define __pyx_tuple__2 __pyx_mstate_global->__pyx_tuple__2
 #define __pyx_tuple__4 __pyx_mstate_global->__pyx_tuple__4
@@ -4339,7 +4338,6 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
   double __pyx_v_y;
   double __pyx_v_z;
   double __pyx_v_checking[3];
-  double __pyx_v_Bordereq;
   double __pyx_v_dx;
   double __pyx_v_dy;
   double __pyx_v_m;
@@ -4360,10 +4358,9 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
   PyObject *__pyx_t_10 = NULL;
   PyObject *__pyx_t_11 = NULL;
   int __pyx_t_12;
-  double __pyx_t_13;
+  double __pyx_t_13[3];
   double __pyx_t_14[3];
   double __pyx_t_15[3];
-  double __pyx_t_16[3];
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -4392,7 +4389,7 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
  *     cdef double y = oldcoord[1]
  *     cdef double z = oldcoord[2]             # <<<<<<<<<<<<<<
  *     cdef double[3] checking = [x, y, z]
- *     cdef double Bordereq = -1000.0
+ *     cdef double dx = (coordinates[0] - oldcoord[0]) / 50.0
  */
   __pyx_v_z = __pyx_v_oldcoord.f2;
 
@@ -4400,8 +4397,8 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
  *     cdef double y = oldcoord[1]
  *     cdef double z = oldcoord[2]
  *     cdef double[3] checking = [x, y, z]             # <<<<<<<<<<<<<<
- *     cdef double Bordereq = -1000.0
  *     cdef double dx = (coordinates[0] - oldcoord[0]) / 50.0
+ *     cdef double dy = (coordinates[1] - oldcoord[1]) / 50.0
  */
   __pyx_t_1[0] = __pyx_v_x;
   __pyx_t_1[1] = __pyx_v_y;
@@ -4411,23 +4408,14 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
   /* "DetailedPath.pyx":13
  *     cdef double z = oldcoord[2]
  *     cdef double[3] checking = [x, y, z]
- *     cdef double Bordereq = -1000.0             # <<<<<<<<<<<<<<
- *     cdef double dx = (coordinates[0] - oldcoord[0]) / 50.0
- *     cdef double dy = (coordinates[1] - oldcoord[1]) / 50.0
- */
-  __pyx_v_Bordereq = -1000.0;
-
-  /* "DetailedPath.pyx":14
- *     cdef double[3] checking = [x, y, z]
- *     cdef double Bordereq = -1000.0
  *     cdef double dx = (coordinates[0] - oldcoord[0]) / 50.0             # <<<<<<<<<<<<<<
  *     cdef double dy = (coordinates[1] - oldcoord[1]) / 50.0
  *     cdef double m = 0.0
  */
   __pyx_v_dx = ((__pyx_v_coordinates.f0 - __pyx_v_oldcoord.f0) / ((__pyx_t_5numpy_float64_t)50.0));
 
-  /* "DetailedPath.pyx":15
- *     cdef double Bordereq = -1000.0
+  /* "DetailedPath.pyx":14
+ *     cdef double[3] checking = [x, y, z]
  *     cdef double dx = (coordinates[0] - oldcoord[0]) / 50.0
  *     cdef double dy = (coordinates[1] - oldcoord[1]) / 50.0             # <<<<<<<<<<<<<<
  *     cdef double m = 0.0
@@ -4435,7 +4423,7 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
  */
   __pyx_v_dy = ((__pyx_v_coordinates.f1 - __pyx_v_oldcoord.f1) / ((__pyx_t_5numpy_float64_t)50.0));
 
-  /* "DetailedPath.pyx":16
+  /* "DetailedPath.pyx":15
  *     cdef double dx = (coordinates[0] - oldcoord[0]) / 50.0
  *     cdef double dy = (coordinates[1] - oldcoord[1]) / 50.0
  *     cdef double m = 0.0             # <<<<<<<<<<<<<<
@@ -4444,7 +4432,7 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
  */
   __pyx_v_m = 0.0;
 
-  /* "DetailedPath.pyx":17
+  /* "DetailedPath.pyx":16
  *     cdef double dy = (coordinates[1] - oldcoord[1]) / 50.0
  *     cdef double m = 0.0
  *     cdef double q = 0.0             # <<<<<<<<<<<<<<
@@ -4453,27 +4441,27 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
  */
   __pyx_v_q = 0.0;
 
-  /* "DetailedPath.pyx":18
+  /* "DetailedPath.pyx":17
  *     cdef double m = 0.0
  *     cdef double q = 0.0
  *     cdef double i = 0             # <<<<<<<<<<<<<<
  *     cdef double j = 0
- *     if dx != 0.0:
+ * 
  */
   __pyx_v_i = 0.0;
 
-  /* "DetailedPath.pyx":19
+  /* "DetailedPath.pyx":18
  *     cdef double q = 0.0
  *     cdef double i = 0
  *     cdef double j = 0             # <<<<<<<<<<<<<<
+ * 
  *     if dx != 0.0:
- *         i = x + dx
  */
   __pyx_v_j = 0.0;
 
   /* "DetailedPath.pyx":20
- *     cdef double i = 0
  *     cdef double j = 0
+ * 
  *     if dx != 0.0:             # <<<<<<<<<<<<<<
  *         i = x + dx
  *         m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
@@ -4482,7 +4470,7 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
   if (__pyx_t_2) {
 
     /* "DetailedPath.pyx":21
- *     cdef double j = 0
+ * 
  *     if dx != 0.0:
  *         i = x + dx             # <<<<<<<<<<<<<<
  *         m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
@@ -4540,7 +4528,7 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
  *             while i <= coordinates[0]:
  *                 j = m * i + q             # <<<<<<<<<<<<<<
  *                 checking = [i, j, z]
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:
  */
         __pyx_v_j = ((__pyx_v_m * __pyx_v_i) + __pyx_v_q);
 
@@ -4548,8 +4536,8 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
  *             while i <= coordinates[0]:
  *                 j = m * i + q
  *                 checking = [i, j, z]             # <<<<<<<<<<<<<<
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                 if Bordereq > 0:
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:
+ *                     return True  # Early termination
  */
         __pyx_t_5[0] = __pyx_v_i;
         __pyx_t_5[1] = __pyx_v_j;
@@ -4559,9 +4547,9 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
         /* "DetailedPath.pyx":28
  *                 j = m * i + q
  *                 checking = [i, j, z]
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T             # <<<<<<<<<<<<<<
- *                 if Bordereq > 0:
- *                     return True
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:             # <<<<<<<<<<<<<<
+ *                     return True  # Early termination
+ *                 i += dx
  */
         __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 28, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
@@ -4605,24 +4593,16 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
         __Pyx_GOTREF(__pyx_t_10);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-        __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 28, __pyx_L1_error)
+        __pyx_t_8 = PyObject_RichCompare(__pyx_t_10, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 28, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_v_Bordereq = __pyx_t_13;
-
-        /* "DetailedPath.pyx":29
- *                 checking = [i, j, z]
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                 if Bordereq > 0:             # <<<<<<<<<<<<<<
- *                     return True
- *                 i += dx
- */
-        __pyx_t_2 = (__pyx_v_Bordereq > 0.0);
+        __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(1, 28, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         if (__pyx_t_2) {
 
-          /* "DetailedPath.pyx":30
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                 if Bordereq > 0:
- *                     return True             # <<<<<<<<<<<<<<
+          /* "DetailedPath.pyx":29
+ *                 checking = [i, j, z]
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:
+ *                     return True  # Early termination             # <<<<<<<<<<<<<<
  *                 i += dx
  *         else:
  */
@@ -4631,18 +4611,18 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
           __pyx_r = Py_True;
           goto __pyx_L0;
 
-          /* "DetailedPath.pyx":29
+          /* "DetailedPath.pyx":28
+ *                 j = m * i + q
  *                 checking = [i, j, z]
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                 if Bordereq > 0:             # <<<<<<<<<<<<<<
- *                     return True
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:             # <<<<<<<<<<<<<<
+ *                     return True  # Early termination
  *                 i += dx
  */
         }
 
-        /* "DetailedPath.pyx":31
- *                 if Bordereq > 0:
- *                     return True
+        /* "DetailedPath.pyx":30
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:
+ *                     return True  # Early termination
  *                 i += dx             # <<<<<<<<<<<<<<
  *         else:
  *             while i >= coordinates[0]:
@@ -4660,7 +4640,7 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
       goto __pyx_L4;
     }
 
-    /* "DetailedPath.pyx":33
+    /* "DetailedPath.pyx":32
  *                 i += dx
  *         else:
  *             while i >= coordinates[0]:             # <<<<<<<<<<<<<<
@@ -4672,44 +4652,44 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
         __pyx_t_2 = (__pyx_v_i >= __pyx_v_coordinates.f0);
         if (!__pyx_t_2) break;
 
-        /* "DetailedPath.pyx":34
+        /* "DetailedPath.pyx":33
  *         else:
  *             while i >= coordinates[0]:
  *                 j = m * i + q             # <<<<<<<<<<<<<<
  *                 checking = [i, j, z]
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:
  */
         __pyx_v_j = ((__pyx_v_m * __pyx_v_i) + __pyx_v_q);
 
-        /* "DetailedPath.pyx":35
+        /* "DetailedPath.pyx":34
  *             while i >= coordinates[0]:
  *                 j = m * i + q
  *                 checking = [i, j, z]             # <<<<<<<<<<<<<<
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                 if Bordereq > 0:
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:
+ *                     return True  # Early termination
  */
-        __pyx_t_14[0] = __pyx_v_i;
-        __pyx_t_14[1] = __pyx_v_j;
-        __pyx_t_14[2] = __pyx_v_z;
-        memcpy(&(__pyx_v_checking[0]), __pyx_t_14, sizeof(__pyx_v_checking[0]) * (3));
+        __pyx_t_13[0] = __pyx_v_i;
+        __pyx_t_13[1] = __pyx_v_j;
+        __pyx_t_13[2] = __pyx_v_z;
+        memcpy(&(__pyx_v_checking[0]), __pyx_t_13, sizeof(__pyx_v_checking[0]) * (3));
 
-        /* "DetailedPath.pyx":36
+        /* "DetailedPath.pyx":35
  *                 j = m * i + q
  *                 checking = [i, j, z]
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T             # <<<<<<<<<<<<<<
- *                 if Bordereq > 0:
- *                     return True
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:             # <<<<<<<<<<<<<<
+ *                     return True  # Early termination
+ *                 i += dx
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 36, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 36, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 35, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_10);
+        __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 35, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-        __pyx_t_8 = PyFloat_FromDouble((__pyx_v_checking[0])); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 36, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_9 = PyFloat_FromDouble((__pyx_v_checking[1])); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 36, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __pyx_t_10 = PyFloat_FromDouble((__pyx_v_checking[0])); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 35, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_10);
+        __pyx_t_9 = PyFloat_FromDouble((__pyx_v_checking[1])); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 35, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_7 = PyFloat_FromDouble(__pyx_v_L_0); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 36, __pyx_L1_error)
+        __pyx_t_7 = PyFloat_FromDouble(__pyx_v_L_0); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 35, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __pyx_t_11 = NULL;
         __pyx_t_12 = 0;
@@ -4726,40 +4706,32 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
         }
         #endif
         {
-          PyObject *__pyx_callargs[4] = {__pyx_t_11, __pyx_t_8, __pyx_t_9, __pyx_t_7};
-          __pyx_t_10 = __Pyx_PyObject_FastCall(__pyx_t_6, __pyx_callargs+1-__pyx_t_12, 3+__pyx_t_12);
+          PyObject *__pyx_callargs[4] = {__pyx_t_11, __pyx_t_10, __pyx_t_9, __pyx_t_7};
+          __pyx_t_8 = __Pyx_PyObject_FastCall(__pyx_t_6, __pyx_callargs+1-__pyx_t_12, 3+__pyx_t_12);
           __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-          __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+          __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 36, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_10);
+          if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 35, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_8);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
-        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_T); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 36, __pyx_L1_error)
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_T); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 35, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_7 = PyNumber_Subtract(__pyx_t_10, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 36, __pyx_L1_error)
+        __pyx_t_7 = PyNumber_Subtract(__pyx_t_8, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 35, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 36, __pyx_L1_error)
+        __pyx_t_6 = PyObject_RichCompare(__pyx_t_7, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 35, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_v_Bordereq = __pyx_t_13;
-
-        /* "DetailedPath.pyx":37
- *                 checking = [i, j, z]
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                 if Bordereq > 0:             # <<<<<<<<<<<<<<
- *                     return True
- *                 i += dx
- */
-        __pyx_t_2 = (__pyx_v_Bordereq > 0.0);
+        __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(1, 35, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         if (__pyx_t_2) {
 
-          /* "DetailedPath.pyx":38
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                 if Bordereq > 0:
- *                     return True             # <<<<<<<<<<<<<<
+          /* "DetailedPath.pyx":36
+ *                 checking = [i, j, z]
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:
+ *                     return True  # Early termination             # <<<<<<<<<<<<<<
  *                 i += dx
  *     else:
  */
@@ -4768,18 +4740,18 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
           __pyx_r = Py_True;
           goto __pyx_L0;
 
-          /* "DetailedPath.pyx":37
+          /* "DetailedPath.pyx":35
+ *                 j = m * i + q
  *                 checking = [i, j, z]
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                 if Bordereq > 0:             # <<<<<<<<<<<<<<
- *                     return True
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:             # <<<<<<<<<<<<<<
+ *                     return True  # Early termination
  *                 i += dx
  */
         }
 
-        /* "DetailedPath.pyx":39
- *                 if Bordereq > 0:
- *                     return True
+        /* "DetailedPath.pyx":37
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:
+ *                     return True  # Early termination
  *                 i += dx             # <<<<<<<<<<<<<<
  *     else:
  *         j = y + dy
@@ -4790,8 +4762,8 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
     __pyx_L4:;
 
     /* "DetailedPath.pyx":20
- *     cdef double i = 0
  *     cdef double j = 0
+ * 
  *     if dx != 0.0:             # <<<<<<<<<<<<<<
  *         i = x + dx
  *         m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
@@ -4799,283 +4771,250 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
     goto __pyx_L3;
   }
 
-  /* "DetailedPath.pyx":41
+  /* "DetailedPath.pyx":39
  *                 i += dx
  *     else:
  *         j = y + dy             # <<<<<<<<<<<<<<
- *         if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in
- *             j = y + dy
+ *         if oldcoord[1] <= coordinates[1]:
+ *             while j <= coordinates[1]:
  */
   /*else*/ {
     __pyx_v_j = (__pyx_v_y + __pyx_v_dy);
 
-    /* "DetailedPath.pyx":42
+    /* "DetailedPath.pyx":40
  *     else:
  *         j = y + dy
- *         if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in             # <<<<<<<<<<<<<<
- *             j = y + dy
+ *         if oldcoord[1] <= coordinates[1]:             # <<<<<<<<<<<<<<
  *             while j <= coordinates[1]:
+ *                 checking = [x, j, z]
  */
     __pyx_t_2 = (__pyx_v_oldcoord.f1 <= __pyx_v_coordinates.f1);
     if (__pyx_t_2) {
 
-      /* "DetailedPath.pyx":43
+      /* "DetailedPath.pyx":41
  *         j = y + dy
- *         if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in
- *             j = y + dy             # <<<<<<<<<<<<<<
- *             while j <= coordinates[1]:
- *                 checking = [x, j, z]
- */
-      __pyx_v_j = (__pyx_v_y + __pyx_v_dy);
-
-      /* "DetailedPath.pyx":44
- *         if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in
- *             j = y + dy
+ *         if oldcoord[1] <= coordinates[1]:
  *             while j <= coordinates[1]:             # <<<<<<<<<<<<<<
  *                 checking = [x, j, z]
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:
  */
       while (1) {
         __pyx_t_2 = (__pyx_v_j <= __pyx_v_coordinates.f1);
         if (!__pyx_t_2) break;
 
-        /* "DetailedPath.pyx":45
- *             j = y + dy
+        /* "DetailedPath.pyx":42
+ *         if oldcoord[1] <= coordinates[1]:
  *             while j <= coordinates[1]:
  *                 checking = [x, j, z]             # <<<<<<<<<<<<<<
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                 if Bordereq > 0:
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:
+ *                     return True  # Early termination
+ */
+        __pyx_t_14[0] = __pyx_v_x;
+        __pyx_t_14[1] = __pyx_v_j;
+        __pyx_t_14[2] = __pyx_v_z;
+        memcpy(&(__pyx_v_checking[0]), __pyx_t_14, sizeof(__pyx_v_checking[0]) * (3));
+
+        /* "DetailedPath.pyx":43
+ *             while j <= coordinates[1]:
+ *                 checking = [x, j, z]
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:             # <<<<<<<<<<<<<<
+ *                     return True  # Early termination
+ *                 j += dy
+ */
+        __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 43, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 43, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_8);
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        __pyx_t_7 = PyFloat_FromDouble((__pyx_v_checking[0])); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 43, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_9 = PyFloat_FromDouble((__pyx_v_checking[1])); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 43, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __pyx_t_10 = PyFloat_FromDouble(__pyx_v_L_0); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 43, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_10);
+        __pyx_t_11 = NULL;
+        __pyx_t_12 = 0;
+        #if CYTHON_UNPACK_METHODS
+        if (unlikely(PyMethod_Check(__pyx_t_8))) {
+          __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_8);
+          if (likely(__pyx_t_11)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
+            __Pyx_INCREF(__pyx_t_11);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_8, function);
+            __pyx_t_12 = 1;
+          }
+        }
+        #endif
+        {
+          PyObject *__pyx_callargs[4] = {__pyx_t_11, __pyx_t_7, __pyx_t_9, __pyx_t_10};
+          __pyx_t_6 = __Pyx_PyObject_FastCall(__pyx_t_8, __pyx_callargs+1-__pyx_t_12, 3+__pyx_t_12);
+          __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+          __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+          if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 43, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_6);
+          __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        }
+        __pyx_t_8 = PyFloat_FromDouble(__pyx_v_T); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 43, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_8);
+        __pyx_t_10 = PyNumber_Subtract(__pyx_t_6, __pyx_t_8); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 43, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_10);
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __pyx_t_8 = PyObject_RichCompare(__pyx_t_10, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 43, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(1, 43, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        if (__pyx_t_2) {
+
+          /* "DetailedPath.pyx":44
+ *                 checking = [x, j, z]
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:
+ *                     return True  # Early termination             # <<<<<<<<<<<<<<
+ *                 j += dy
+ *         else:
+ */
+          __Pyx_XDECREF(__pyx_r);
+          __Pyx_INCREF(Py_True);
+          __pyx_r = Py_True;
+          goto __pyx_L0;
+
+          /* "DetailedPath.pyx":43
+ *             while j <= coordinates[1]:
+ *                 checking = [x, j, z]
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:             # <<<<<<<<<<<<<<
+ *                     return True  # Early termination
+ *                 j += dy
+ */
+        }
+
+        /* "DetailedPath.pyx":45
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:
+ *                     return True  # Early termination
+ *                 j += dy             # <<<<<<<<<<<<<<
+ *         else:
+ *             while j >= coordinates[1]:
+ */
+        __pyx_v_j = (__pyx_v_j + __pyx_v_dy);
+      }
+
+      /* "DetailedPath.pyx":40
+ *     else:
+ *         j = y + dy
+ *         if oldcoord[1] <= coordinates[1]:             # <<<<<<<<<<<<<<
+ *             while j <= coordinates[1]:
+ *                 checking = [x, j, z]
+ */
+      goto __pyx_L11;
+    }
+
+    /* "DetailedPath.pyx":47
+ *                 j += dy
+ *         else:
+ *             while j >= coordinates[1]:             # <<<<<<<<<<<<<<
+ *                 checking = [x, j, z]
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:
+ */
+    /*else*/ {
+      while (1) {
+        __pyx_t_2 = (__pyx_v_j >= __pyx_v_coordinates.f1);
+        if (!__pyx_t_2) break;
+
+        /* "DetailedPath.pyx":48
+ *         else:
+ *             while j >= coordinates[1]:
+ *                 checking = [x, j, z]             # <<<<<<<<<<<<<<
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:
+ *                     return True  # Early termination
  */
         __pyx_t_15[0] = __pyx_v_x;
         __pyx_t_15[1] = __pyx_v_j;
         __pyx_t_15[2] = __pyx_v_z;
         memcpy(&(__pyx_v_checking[0]), __pyx_t_15, sizeof(__pyx_v_checking[0]) * (3));
 
-        /* "DetailedPath.pyx":46
- *             while j <= coordinates[1]:
- *                 checking = [x, j, z]
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T             # <<<<<<<<<<<<<<
- *                 if Bordereq > 0:
- *                     return True
- */
-        __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 46, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 46, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_6 = PyFloat_FromDouble((__pyx_v_checking[0])); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 46, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_9 = PyFloat_FromDouble((__pyx_v_checking[1])); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 46, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_8 = PyFloat_FromDouble(__pyx_v_L_0); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 46, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_11 = NULL;
-        __pyx_t_12 = 0;
-        #if CYTHON_UNPACK_METHODS
-        if (unlikely(PyMethod_Check(__pyx_t_10))) {
-          __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_10);
-          if (likely(__pyx_t_11)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
-            __Pyx_INCREF(__pyx_t_11);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_10, function);
-            __pyx_t_12 = 1;
-          }
-        }
-        #endif
-        {
-          PyObject *__pyx_callargs[4] = {__pyx_t_11, __pyx_t_6, __pyx_t_9, __pyx_t_8};
-          __pyx_t_7 = __Pyx_PyObject_FastCall(__pyx_t_10, __pyx_callargs+1-__pyx_t_12, 3+__pyx_t_12);
-          __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-          __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-          if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 46, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_7);
-          __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        }
-        __pyx_t_10 = PyFloat_FromDouble(__pyx_v_T); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 46, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __pyx_t_8 = PyNumber_Subtract(__pyx_t_7, __pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 46, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_8);
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_8); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 46, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-        __pyx_v_Bordereq = __pyx_t_13;
-
-        /* "DetailedPath.pyx":47
- *                 checking = [x, j, z]
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                 if Bordereq > 0:             # <<<<<<<<<<<<<<
- *                     return True
- *                 j += dy
- */
-        __pyx_t_2 = (__pyx_v_Bordereq > 0.0);
-        if (__pyx_t_2) {
-
-          /* "DetailedPath.pyx":48
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                 if Bordereq > 0:
- *                     return True             # <<<<<<<<<<<<<<
- *                 j += dy
- *         else:
- */
-          __Pyx_XDECREF(__pyx_r);
-          __Pyx_INCREF(Py_True);
-          __pyx_r = Py_True;
-          goto __pyx_L0;
-
-          /* "DetailedPath.pyx":47
- *                 checking = [x, j, z]
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                 if Bordereq > 0:             # <<<<<<<<<<<<<<
- *                     return True
- *                 j += dy
- */
-        }
-
         /* "DetailedPath.pyx":49
- *                 if Bordereq > 0:
- *                     return True
- *                 j += dy             # <<<<<<<<<<<<<<
- *         else:
- *             j = y + dy
- */
-        __pyx_v_j = (__pyx_v_j + __pyx_v_dy);
-      }
-
-      /* "DetailedPath.pyx":42
- *     else:
- *         j = y + dy
- *         if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in             # <<<<<<<<<<<<<<
- *             j = y + dy
- *             while j <= coordinates[1]:
- */
-      goto __pyx_L11;
-    }
-
-    /* "DetailedPath.pyx":51
+ *             while j >= coordinates[1]:
+ *                 checking = [x, j, z]
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:             # <<<<<<<<<<<<<<
+ *                     return True  # Early termination
  *                 j += dy
- *         else:
- *             j = y + dy             # <<<<<<<<<<<<<<
- *             while j >= coordinates[1]:
- *                 checking = [x, j, z]
  */
-    /*else*/ {
-      __pyx_v_j = (__pyx_v_y + __pyx_v_dy);
-
-      /* "DetailedPath.pyx":52
- *         else:
- *             j = y + dy
- *             while j >= coordinates[1]:             # <<<<<<<<<<<<<<
- *                 checking = [x, j, z]
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- */
-      while (1) {
-        __pyx_t_2 = (__pyx_v_j >= __pyx_v_coordinates.f1);
-        if (!__pyx_t_2) break;
-
-        /* "DetailedPath.pyx":53
- *             j = y + dy
- *             while j >= coordinates[1]:
- *                 checking = [x, j, z]             # <<<<<<<<<<<<<<
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                 if Bordereq > 0:
- */
-        __pyx_t_16[0] = __pyx_v_x;
-        __pyx_t_16[1] = __pyx_v_j;
-        __pyx_t_16[2] = __pyx_v_z;
-        memcpy(&(__pyx_v_checking[0]), __pyx_t_16, sizeof(__pyx_v_checking[0]) * (3));
-
-        /* "DetailedPath.pyx":54
- *             while j >= coordinates[1]:
- *                 checking = [x, j, z]
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T             # <<<<<<<<<<<<<<
- *                 if Bordereq > 0:
- *                     return True
- */
-        __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 54, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 49, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 54, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = PyFloat_FromDouble((__pyx_v_checking[0])); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 54, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __pyx_t_9 = PyFloat_FromDouble((__pyx_v_checking[1])); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 54, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_L_0); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 54, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_Fibril); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 49, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
+        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __pyx_t_10 = PyFloat_FromDouble((__pyx_v_checking[0])); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 49, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_10);
+        __pyx_t_9 = PyFloat_FromDouble((__pyx_v_checking[1])); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 49, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __pyx_t_7 = PyFloat_FromDouble(__pyx_v_L_0); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 49, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
         __pyx_t_11 = NULL;
         __pyx_t_12 = 0;
         #if CYTHON_UNPACK_METHODS
-        if (unlikely(PyMethod_Check(__pyx_t_7))) {
-          __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_7);
+        if (unlikely(PyMethod_Check(__pyx_t_6))) {
+          __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_6);
           if (likely(__pyx_t_11)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
             __Pyx_INCREF(__pyx_t_11);
             __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_7, function);
+            __Pyx_DECREF_SET(__pyx_t_6, function);
             __pyx_t_12 = 1;
           }
         }
         #endif
         {
-          PyObject *__pyx_callargs[4] = {__pyx_t_11, __pyx_t_10, __pyx_t_9, __pyx_t_6};
-          __pyx_t_8 = __Pyx_PyObject_FastCall(__pyx_t_7, __pyx_callargs+1-__pyx_t_12, 3+__pyx_t_12);
+          PyObject *__pyx_callargs[4] = {__pyx_t_11, __pyx_t_10, __pyx_t_9, __pyx_t_7};
+          __pyx_t_8 = __Pyx_PyObject_FastCall(__pyx_t_6, __pyx_callargs+1-__pyx_t_12, 3+__pyx_t_12);
           __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 54, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_8);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+          if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 49, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_8);
+          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
-        __pyx_t_7 = PyFloat_FromDouble(__pyx_v_T); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 54, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_6 = PyNumber_Subtract(__pyx_t_8, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 54, __pyx_L1_error)
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_T); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 49, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_7 = PyNumber_Subtract(__pyx_t_8, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 49, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 54, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_v_Bordereq = __pyx_t_13;
-
-        /* "DetailedPath.pyx":55
- *                 checking = [x, j, z]
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                 if Bordereq > 0:             # <<<<<<<<<<<<<<
- *                     return True
- *                 j += dy
- */
-        __pyx_t_2 = (__pyx_v_Bordereq > 0.0);
+        __pyx_t_6 = PyObject_RichCompare(__pyx_t_7, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 49, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(1, 49, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         if (__pyx_t_2) {
 
-          /* "DetailedPath.pyx":56
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                 if Bordereq > 0:
- *                     return True             # <<<<<<<<<<<<<<
+          /* "DetailedPath.pyx":50
+ *                 checking = [x, j, z]
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:
+ *                     return True  # Early termination             # <<<<<<<<<<<<<<
  *                 j += dy
- *     return False
+ * 
  */
           __Pyx_XDECREF(__pyx_r);
           __Pyx_INCREF(Py_True);
           __pyx_r = Py_True;
           goto __pyx_L0;
 
-          /* "DetailedPath.pyx":55
+          /* "DetailedPath.pyx":49
+ *             while j >= coordinates[1]:
  *                 checking = [x, j, z]
- *                 Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
- *                 if Bordereq > 0:             # <<<<<<<<<<<<<<
- *                     return True
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:             # <<<<<<<<<<<<<<
+ *                     return True  # Early termination
  *                 j += dy
  */
         }
 
-        /* "DetailedPath.pyx":57
- *                 if Bordereq > 0:
- *                     return True
+        /* "DetailedPath.pyx":51
+ *                 if Fibril.Fibril(checking[0], checking[1], L_0) - T > 0:
+ *                     return True  # Early termination
  *                 j += dy             # <<<<<<<<<<<<<<
+ * 
  *     return False
  */
         __pyx_v_j = (__pyx_v_j + __pyx_v_dy);
@@ -5085,9 +5024,9 @@ static PyObject *__pyx_pf_12DetailedPath_DetailedPath(CYTHON_UNUSED PyObject *__
   }
   __pyx_L3:;
 
-  /* "DetailedPath.pyx":58
- *                     return True
+  /* "DetailedPath.pyx":53
  *                 j += dy
+ * 
  *     return False             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
@@ -5135,7 +5074,6 @@ static PyMethodDef __pyx_methods[] = {
 
 static int __Pyx_CreateStringTabAndInitStrings(void) {
   __Pyx_StringTabEntry __pyx_string_tab[] = {
-    {&__pyx_n_s_Bordereq, __pyx_k_Bordereq, sizeof(__pyx_k_Bordereq), 0, 0, 1, 1},
     {&__pyx_n_s_DetailedPath, __pyx_k_DetailedPath, sizeof(__pyx_k_DetailedPath), 0, 0, 1, 1},
     {&__pyx_kp_s_DetailedPath_pyx, __pyx_k_DetailedPath_pyx, sizeof(__pyx_k_DetailedPath_pyx), 0, 0, 1, 0},
     {&__pyx_n_s_Fibril, __pyx_k_Fibril, sizeof(__pyx_k_Fibril), 0, 0, 1, 1},
@@ -5217,10 +5155,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * @cython.wraparound(False)
  * def DetailedPath(tuple[np.float64_t,np.float64_t,np.float64_t] coordinates, tuple[np.float64_t,np.float64_t,np.float64_t] oldcoord, np.float64_t T, np.float64_t L_0) -> bool :
  */
-  __pyx_tuple__4 = PyTuple_Pack(15, __pyx_n_s_coordinates, __pyx_n_s_oldcoord, __pyx_n_s_T, __pyx_n_s_L_0, __pyx_n_s_x, __pyx_n_s_y, __pyx_n_s_z, __pyx_n_s_checking, __pyx_n_s_Bordereq, __pyx_n_s_dx, __pyx_n_s_dy, __pyx_n_s_m, __pyx_n_s_q, __pyx_n_s_i, __pyx_n_s_j); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(1, 6, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(14, __pyx_n_s_coordinates, __pyx_n_s_oldcoord, __pyx_n_s_T, __pyx_n_s_L_0, __pyx_n_s_x, __pyx_n_s_y, __pyx_n_s_z, __pyx_n_s_checking, __pyx_n_s_dx, __pyx_n_s_dy, __pyx_n_s_m, __pyx_n_s_q, __pyx_n_s_i, __pyx_n_s_j); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(1, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(4, 0, 0, 15, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_DetailedPath_pyx, __pyx_n_s_DetailedPath, 6, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(1, 6, __pyx_L1_error)
+  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(4, 0, 0, 14, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_DetailedPath_pyx, __pyx_n_s_DetailedPath, 6, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(1, 6, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -5231,6 +5169,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
 static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_CreateStringTabAndInitStrings() < 0) __PYX_ERR(1, 1, __pyx_L1_error);
+  __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(1, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;

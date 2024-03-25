@@ -5,84 +5,26 @@ import Fibril
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-def GetIntersect(tuple[np.float64_t,np.float64_t,np.float64_t] coordinates, tuple[np.float64_t,np.float64_t,np.float64_t] oldcoord, np.float64_t phi, np.float64_t theta, np.float64_t T, np.float64_t L_0) -> tuple[np.float64_t,np.float64_t,np.float64_t]:
-    cdef double x = oldcoord[0]
-    cdef double y = oldcoord[1]
-    cdef double z = oldcoord[2]
-    cdef double[3] checking = [x, y, z]
-    cdef double Bordereq = 0.0
-    cdef double minBorderDist = Fibril.Fibril(checking[0], checking[1], L_0) - T
-    cdef double[3] nearest_point = [x, y, z]
-    cdef double dx = (coordinates[0] - oldcoord[0]) / 50.0
-    cdef double dy = (coordinates[1] - oldcoord[1]) / 50.0
-    cdef double m = 0.0
-    cdef double q = 0.0
-    cdef double i = 0
-    cdef double j = 0
-    if dx != 0.0:
-        i = x + dx
-        m = (coordinates[1] - oldcoord[1]) / (coordinates[0] - oldcoord[0])
-        q = coordinates[1] - m * coordinates[0]
-        if oldcoord[0] <= coordinates[0]: 
-            while i <= coordinates[0]:
-                j = m * i + q
-                checking = [i, j, z]
-                Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
-                if Bordereq > 0:
-                    break
-                if Bordereq > minBorderDist:
-                    minBorderDist = Bordereq
-                    nearest_point[0] = i
-                    nearest_point[1] = j
-                i += dx
-            nearest_point[2] = z + (
-                (nearest_point[0] - oldcoord[0]) / (np.tan(phi) * np.cos(theta))
-            )
+def GetIntersect(tuple[np.float64_t,np.float64_t,np.float64_t] coordinates, tuple[np.float64_t,np.float64_t,np.float64_t] oldcoord, np.float64_t phi, np.float64_t theta, np.float64_t T, np.float64_t L_0, double tolerance=1e-8) -> tuple[np.float64_t,np.float64_t,np.float64_t]:
+
+    def find_midpoint(a, b):
+        return [(a[i] + b[i]) / 2 for i in range(3)] 
+ 
+    a = oldcoord
+    b = coordinates
+    diff = [b[i]-a[i] for i in range(3)]
+    while np.linalg.norm(diff) > tolerance:  # Check distance instead of steps
+        mid = find_midpoint(a, b)
+        f_mid = Fibril.Fibril(mid[0], mid[1], L_0) - T
+
+        if f_mid == 0: 
+            return mid  # Exact zero found!
+
+        if np.sign(f_mid) == np.sign(Fibril.Fibril(a[0], a[1], L_0) - T):
+            a = mid   # Zero is in the second half
         else:
-            while i >= coordinates[0]:
-                j = m * i + q
-                checking = [i, j, z]
-                Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
-                if Bordereq > 0:
-                    break
-                if Bordereq > minBorderDist:
-                    minBorderDist = Bordereq
-                    nearest_point[0] = i
-                    nearest_point[1] = j
-                i += dx
-            nearest_point[2] = z + (
-                (nearest_point[0] - oldcoord[0]) / (np.tan(phi) * np.cos(theta))
-            )
-    else:
-        j = y + dy
-        if oldcoord[1] <= coordinates[1]:  # if y_fin >= y_in
-            j = y + dy
-            while j <= coordinates[1]:
-                checking = [x, j, z]
-                Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
-                if Bordereq > 0:
-                    break
-                if Bordereq > minBorderDist:
-                    minBorderDist = Bordereq
-                    nearest_point[0] = x
-                    nearest_point[1] = j
-                j += dy
-            nearest_point[2] = z + (
-                (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
-            )
-        else:
-            j = y + dy
-            while j >= coordinates[1]:
-                checking = [x, j, z]
-                Bordereq = Fibril.Fibril(checking[0], checking[1], L_0) - T
-                if Bordereq > 0:
-                    break
-                if Bordereq > minBorderDist:
-                    minBorderDist = Bordereq
-                    nearest_point[0] = x
-                    nearest_point[1] = j
-                j += dy
-            nearest_point[2] = z + (
-                (nearest_point[1] - oldcoord[1]) / (np.tan(phi) * np.sin(theta))
-            )
-    return nearest_point
+            b = mid   # Zero is in the first half
+        diff = [b[i]-a[i] for i in range(3)]
+    # Return the approximate zero-crossing point (midpoint at termination)
+    z_coord = oldcoord[2] + ((mid[0] - oldcoord[0]) / (np.tan(phi) * np.cos(theta)))  # Or alternative calculation
+    return [mid[0], mid[1], z_coord] 

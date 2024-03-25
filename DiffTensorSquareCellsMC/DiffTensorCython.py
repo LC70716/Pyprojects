@@ -13,28 +13,52 @@ import DetailedPath
 N_p = 80000  # number of particles
 N_t = 30000  # number of time steps
 dt = 5e-9  # s
-D_0 = 2.3e-3  ## mm^2/s
+D_0 = 2.116e-3  ## mm^2/s
 dr = np.sqrt(6 * D_0 * dt)  # mm (order of 10^-6)
 L_0 = 1e-4  ##mm
-T = [0,0.2,0.5,0.9,1.3]  # needs to be correlated to phi (volume fibrils/total volume) via computephi
-#for i in range(0, 5):
-#    T.append(i * 0.3)
+T = [
+    0,
+    0,
+    0,
+    0.2,
+    0.2,
+    0.2,
+    0.5,
+    0.5,
+    0.5,
+]  # needs to be correlated to phi (volume fibrils/total volume) via computephi
 T.append(193 / 120)
 Phis = []
 # eigenvalues are ordered on the value of the scal prod of eigenvector and k versor
 D_1 = []  # principal eigenvalues of DT matrix
 D_23 = []  # mean between secondary and tertiary eigenvalues
+DTS = []  # diffusion tensors
+
+
+def toTXT(D_prin, D_sec, DTS, Phis):
+    for i in range(0, len(Phis)):
+        filename = str(i) + ")." + str(Phis[i])
+        with open(filename, "w") as f:
+            f.write("D_1: {}\n".format(D_prin[i]))
+            f.write("D_23: {}\n".format(D_sec[i]))
+            f.write("DT: {}\n".format(DTS[i]))
+            f.write("Phi: {}\n".format(Phis[i]))
 
 
 def Getdr(D, dt):
     return np.sqrt(6 * D * dt)
 
-def computePG_T(T,L_agg,L_0): # computes the value T' in order to have a PG ring around the fibrils and compute it with the Fibril function
-    term1 = 193/120
-    term2 = -1*(16/21)*(np.pi**2)*((193/120)-T)
-    term3 = -1*(L_agg**2)/(L_0**2)
-    term4 = -1*2*(L_agg/L_0)*np.sqrt((16/21)*(np.pi**2)*((193/120)-T))
-    return term1 + (21/16)*(1/(np.pi**2))*(term2+term3+term4)
+
+def computePG_T(
+    T, L_agg, L_0
+):  # computes the value T' in order to have a PG ring around the fibrils and compute it with the Fibril function
+    term1 = 193 / 120
+    term2 = -1 * (16 / 21) * (np.pi**2) * ((193 / 120) - T)
+    term3 = -1 * (L_agg**2) / (L_0**2)
+    term4 = (
+        -1 * 2 * (L_agg / L_0) * np.sqrt((16 / 21) * (np.pi**2) * ((193 / 120) - T))
+    )
+    return term1 + (21 / 16) * (1 / (np.pi**2)) * (term2 + term3 + term4)
 
 
 def ComputePhi(T, points):
@@ -76,100 +100,37 @@ def SimulParticle(particle_index, N_t, N_p, dt, dr, L_0, T):
     if particle_index % 8000 == 0:
         print(particle_index)
     coordinates = [
-        L_0*np.random.uniform(0, 1),
-        L_0*np.random.uniform(0, 1),
-        L_0*np.random.uniform(0, 1),
+        L_0 * np.random.uniform(0, 1),
+        L_0 * np.random.uniform(0, 1),
+        L_0 * np.random.uniform(0, 1),
     ]
-    while Fibril.Fibril(coordinates[0], coordinates[1], L_0) - T > 0:
+    while Fibril.Fibril(coordinates[0], coordinates[1], L_0) > T:
         coordinates = [
-            L_0*np.random.uniform(0, 1),
-            L_0*np.random.uniform(0, 1),
-            L_0*np.random.uniform(0, 1),
+            L_0 * np.random.uniform(0, 1),
+            L_0 * np.random.uniform(0, 1),
+            L_0 * np.random.uniform(0, 1),
         ]
     coordinateshistory = [copy.deepcopy(coordinates), []]
     previous_border_interaction = 0
-    inside_PG = 0
-    if fibril >= PG_T:
-        inside_PG = 1
     for i in range(0, N_t):
-        if previous_border_interaction == 0 :
+        if previous_border_interaction == 0:
             oldcoord = copy.deepcopy(coordinates)
             phi, theta = Boost(coordinates, dr)
-            if Fibril.Fibril(coordinates[0], coordinates[1], L_0) - T > 0 :
+            if Fibril.Fibril(coordinates[0], coordinates[1], L_0) > T:
                 coordinates = GetIntersect.GetIntersect(
                     coordinates, oldcoord, phi, theta, T, L_0
                 )
                 previous_border_interaction = 1
-                inside_PG = 1
-            elif fibril >= PG_T:  #inside the PG ring
-                inter_coord_and_tsteps = GetIntersect.GetIntersect(
-                    coordinates, oldcoord, phi, theta, PG_T , L_0
-                )
-                coordinates[0] = inter_coord_and_tsteps[0] + Getdr(
-                    D_1, dt * (50 - inter_coord_and_tsteps[3]) / 50
-                ) * np.sin(phi) * np.cos(theta)
-                coordinates[1] = inter_coord_and_tsteps[1] + Getdr(
-                    D_1, dt * (50 - inter_coord_and_tsteps[3]) / 50
-                ) * np.sin(phi) * np.sin(theta)
-                coordinates[2] = inter_coord_and_tsteps[2] + Getdr(
-                    D_1, dt * (50 - inter_coord_and_tsteps[3]) / 50
-                ) * np.cos(phi)
-                inside_PG = 1
-        elif previous_border_interaction == 0 and inside_PG == 1:
-            oldcoord = copy.deepcopy(coordinates)
-            phi, theta = Boost(coordinates, D_1, dt)
-            fibril = Fibril.Fibril(coordinates[0], coordinates[1], L_0)
-            if fibril >= T:
-                inter_coord_and_tsteps = GetIntersect.GetIntersect(
-                    coordinates, oldcoord, phi, theta, T, L_0
-                )
-                coordinates[0] = copy.copy(inter_coord_and_tsteps[0])
-                coordinates[1] = copy.copy(inter_coord_and_tsteps[1])
-                coordinates[2] = copy.copy(inter_coord_and_tsteps[2])
-                previous_border_interaction = 1
-                inside_PG = 1
-            elif fibril <= PG_T:  # if ends outside the PG ring
-                inter_coord_and_tsteps = GetIntersect.GetIntersect(
-                        coordinates, oldcoord, phi, theta, PG_T, L_0
-                )
-                coordinates[0] = inter_coord_and_tsteps[0] + Getdr(
-                    D_0, dt * (50 - inter_coord_and_tsteps[3]) / 50
-                ) * np.sin(phi) * np.cos(theta)
-                coordinates[1] = inter_coord_and_tsteps[1] + Getdr(
-                    D_0, dt * (50 - inter_coord_and_tsteps[3]) / 50
-                ) * np.sin(phi) * np.sin(theta)
-                coordinates[2] = inter_coord_and_tsteps[2] + Getdr(
-                    D_0, dt * (50 - inter_coord_and_tsteps[3]) / 50
-                ) * np.cos(phi)
-                inside_PG = 0
         elif previous_border_interaction == 1:
             oldcoord = copy.deepcopy(coordinates)
-            phi, theta = Boost(coordinates, D_1, dt)
+            phi, theta = Boost(coordinates, dr)
             border_intersection = DetailedPath.DetailedPath(
                 coordinates, oldcoord, T, L_0
             )
             if border_intersection == True:
                 coordinates = copy.deepcopy(oldcoord)
             else:
-                fibril = Fibril.Fibril(coordinates[0], coordinates[1], L_0)
-                if fibril <= PG_T:  # if ends outside the PG ring
-                    inter_coord_and_tsteps = GetIntersect.GetIntersect(
-                        coordinates, oldcoord, phi, theta, PG_T, L_0
-                    )
-                    coordinates[0] = copy.deepcopy(inter_coord_and_tsteps[0]) + Getdr(
-                        D_0, dt * (50 - inter_coord_and_tsteps[3]) / 50
-                    ) * np.sin(phi) * np.cos(theta)
-                    coordinates[1] = copy.deepcopy(inter_coord_and_tsteps[1]) + Getdr(
-                        D_0, dt * (50 - inter_coord_and_tsteps[3]) / 50
-                    ) * np.sin(phi) * np.sin(theta)
-                    coordinates[2] = copy.deepcopy(inter_coord_and_tsteps[2]) + Getdr(
-                        D_0, dt * (50 - inter_coord_and_tsteps[3]) / 50
-                    ) * np.cos(phi)
-                    inside_PG = 0
-                    previous_border_interaction = 0
-                else: # if ends inside the PG ring
-                    previous_border_interaction = 0
-                    inside_PG = 1
+                previous_border_interaction = 0
     coordinateshistory[1] = copy.deepcopy(coordinates)
     D_xx = GetDTensorElementAddend(coordinateshistory, 0, 0) / (2 * N_t * dt * N_p)
     D_xy = GetDTensorElementAddend(coordinateshistory, 0, 1) / (2 * N_t * dt * N_p)
@@ -207,20 +168,21 @@ if __name__ == "__main__":
                 for i in range(len(DT))
             ]
         print(DT)
+        DTS.append(DT)
         evalues, evectors = np.linalg.eig(DT)
         print("e-values:", evalues)
         print("e-vectors:", evectors)
         principal_eval = evalues[0]
-        mean_sec_eval = (sum(evalues)-principal_eval) / 2
+        mean_sec_eval = (sum(evalues) - principal_eval) / 2
         if np.abs(evectors[2][1]) > np.abs(evectors[2][0]):
             principal_eval = evalues[1]
-            mean_sec_eval = (sum(evalues)-principal_eval) / 2
+            mean_sec_eval = (sum(evalues) - principal_eval) / 2
             if np.abs(evectors[2][2]) > np.abs(evectors[2][1]):
                 principal_eval = evalues[2]
-                mean_sec_eval = (sum(evalues)-principal_eval) / 2
-        elif np.abs(evectors[2][2]) > np.abs(evectors[2][0]) :
+                mean_sec_eval = (sum(evalues) - principal_eval) / 2
+        elif np.abs(evectors[2][2]) > np.abs(evectors[2][0]):
             principal_eval = evalues[2]
-            mean_sec_eval = (sum(evalues)-principal_eval) / 2
+            mean_sec_eval = (sum(evalues) - principal_eval) / 2
         D_1.append(principal_eval)
         D_23.append(mean_sec_eval)
         print(t)
@@ -231,8 +193,5 @@ if __name__ == "__main__":
     for t in T:
         Phis.append(ComputePhi(t, 1000))
     # plotting
-    plt.scatter(Phis, D_1,marker='x')
-    plt.scatter(Phis, D_23)
-    plt.show()
-    print(Phis)
+    toTXT(D_1, D_23, DTS, Phis)
 # %%
